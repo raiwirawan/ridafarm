@@ -614,15 +614,69 @@ footer {
     }
 }
 
-/* Product Price */
-.product-price {
-    margin-top: 24px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--primary-color);
+
+/* Premium Product Footer & Pricing */
+.product-footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.product-price span {
-    font-size: 0.9rem;
+
+.product-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.price-val {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.price-unit {
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+}
+
+.price-unit.label {
+    margin-top: 0;
+    margin-bottom: 2px;
+}
+
+.product-action {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
+}
+
+/* Hover Interactivity */
+.card:hover .product-action {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateX(5px);
+    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+}
+
+.card:hover .product-action i {
+    transform: translateX(2px);
+    transition: transform 0.3s ease;
 }
