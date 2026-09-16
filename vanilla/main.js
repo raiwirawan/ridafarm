@@ -2,15 +2,53 @@
 document.documentElement.classList.add('js');
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- Page Loader ---
+
+    // --- Intersection Observer for Entry Animations ---
+    // Called IMMEDIATELY on DOMContentLoaded — no delay, no dependency on loader
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target); // stop observing once visible
+            }
+        });
+    }, observerOptions);
+
+    function initAnimations() {
+        const animatedElements = document.querySelectorAll(
+            '.animate-fade-up, .animate-text, .reveal-wrap, .animate-scale'
+        );
+        animatedElements.forEach(el => observer.observe(el));
+
+        // Stagger animations
+        const staggerGroups = [
+            document.querySelectorAll('.philosophy-grid .animate-stagger'),
+            document.querySelectorAll('.news-grid .animate-stagger')
+        ];
+        staggerGroups.forEach(group => {
+            group.forEach((el, index) => {
+                el.style.transitionDelay = `${index * 0.15}s`;
+                observer.observe(el);
+            });
+        });
+    }
+
+    // Run immediately — don't wait for loader
+    initAnimations();
+
+    // --- Page Loader (visual only, doesn't block content) ---
     const loader = document.querySelector('.loader');
     window.addEventListener('load', () => {
         setTimeout(() => {
             loader.classList.add('hidden');
             document.body.classList.remove('loading');
-            initAnimations(); // Trigger initial animations
-        }, 1500); // Fake loading time for effect
+        }, 1000);
     });
 
     // --- Custom Cursor ---
@@ -22,116 +60,62 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        
-        // Dot follows instantly
         cursorDot.style.left = `${mouseX}px`;
         cursorDot.style.top = `${mouseY}px`;
     });
 
-    // Outline follows with delay (lerp)
     function animateCursor() {
-        let distX = mouseX - outlineX;
-        let distY = mouseY - outlineY;
-        
-        outlineX += distX * 0.15;
-        outlineY += distY * 0.15;
-        
+        outlineX += (mouseX - outlineX) * 0.15;
+        outlineY += (mouseY - outlineY) * 0.15;
         cursorOutline.style.left = `${outlineX}px`;
         cursorOutline.style.top = `${outlineY}px`;
-        
         requestAnimationFrame(animateCursor);
     }
     animateCursor();
 
-    // Hover effect on links and buttons
+    // Hover effect on interactive elements
     const interactives = document.querySelectorAll('a, button, .magnetic');
     interactives.forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
     });
 
-
-    // --- Intersection Observer for Entry Animations ---
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-                // Optional: stop observing once animated
-                // observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    function initAnimations() {
-        const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-text, .reveal-wrap, .animate-scale');
-        animatedElements.forEach(el => observer.observe(el));
-
-        // Handle stagger animations specifically
-        const staggerGroups = [
-            document.querySelectorAll('.philosophy-grid .animate-stagger'),
-            document.querySelectorAll('.news-grid .animate-stagger')
-        ];
-
-        staggerGroups.forEach(group => {
-            group.forEach((el, index) => {
-                el.style.transitionDelay = `${index * 0.2}s`;
-                observer.observe(el);
-            });
-        });
-    }
-
     // --- Parallax Effect ---
     const parallaxElements = document.querySelectorAll('.parallax-img');
-    
+    const navbar = document.querySelector('.navbar');
+
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-        
+
         parallaxElements.forEach(el => {
-            const speed = el.getAttribute('data-speed') || 0.1;
-            // Only parallax if element is roughly in view
+            const speed = parseFloat(el.getAttribute('data-speed')) || 0.1;
             const rect = el.getBoundingClientRect();
             if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const yPos = -(rect.top * speed);
-                el.style.transform = `translateY(${yPos}px) scale(1.1)`; // scale slightly to avoid clipping edges
+                el.style.transform = `translateY(${-(rect.top * speed)}px) scale(1.1)`;
             }
         });
-        
-        // Navbar Scrolled State
-        const navbar = document.querySelector('.navbar');
-        if (scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+
+        // Navbar scrolled state
+        navbar.classList.toggle('scrolled', scrollY > 50);
     });
 
     // --- Magnetic Buttons ---
-    const magneticBtns = document.querySelectorAll('.magnetic');
-    magneticBtns.forEach(btn => {
+    document.querySelectorAll('.magnetic').forEach(btn => {
         btn.addEventListener('mousemove', (e) => {
             const rect = btn.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            
             btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
         });
-        
         btn.addEventListener('mouseleave', () => {
-            btn.style.transform = `translate(0px, 0px)`;
+            btn.style.transform = 'translate(0px, 0px)';
         });
     });
 
     // --- Sticky Investor Banner ---
     const banner = document.querySelector('.investor-banner');
     const closeBanner = document.querySelector('.banner-close');
-    
-    // Show banner after scroll down
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 500 && !banner.classList.contains('closed')) {
             banner.classList.add('show');
