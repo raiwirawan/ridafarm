@@ -311,48 +311,12 @@ main {
 	color: var(--primary);
 }
 
-.logo-image {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 60px;
-	height: 60px;
-	background: var(--primary);
-	color: white;
-	border-radius: 50%;
-	padding: 5px;
-}
-
-.logo-main {
-	font-family: var(--font-heading);
-	font-size: 1.2rem;
-	font-weight: 700;
-	line-height: 1;
-}
-
-.logo-sub {
-	font-size: 0.4rem;
-	letter-spacing: 1px;
-	margin-top: 2px;
-	margin-left: 1rem;
-}
-
-.logo-text {
-	display: flex;
-	flex-direction: column;
-}
-
-.brand-name {
-	font-weight: 700;
-	font-size: 1.4rem;
-	line-height: 1;
-}
-
-.brand-tag {
-	font-size: 0.75rem;
-	color: var(--text-light);
-	margin-top: 4px;
+.logo-img {
+	max-height: 60px;
+	width: auto;
+	object-fit: contain;
+	/* If the logo has a white background, mix-blend-mode can help it blend into the navbar */
+	mix-blend-mode: multiply;
 }
 
 .nav-links {
