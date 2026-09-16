@@ -613,16 +613,27 @@ main {
 	color: var(--accent);
 }
 
-/* Philosophy */
 .philosophy-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 3rem;
+	display: flex;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	gap: 2rem;
 	margin-top: 4rem;
+	padding-bottom: 2rem;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.philosophy-grid::-webkit-scrollbar {
+	display: none;
 }
 
 .feature-card {
 	padding: 2rem;
+	flex: 0 0 calc(33.333% - 1.33rem);
+	scroll-snap-align: start;
+	min-width: 280px;
 }
 
 .feature-icon {
@@ -729,15 +740,27 @@ main {
 }
 
 .news-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	display: flex;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
 	gap: 2rem;
+	padding-bottom: 2rem;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.news-grid::-webkit-scrollbar {
+	display: none;
 }
 
 .news-card {
 	text-decoration: none;
 	color: inherit;
 	display: block;
+	flex: 0 0 calc(33.333% - 1.33rem);
+	scroll-snap-align: start;
+	min-width: 300px;
 }
 
 .news-img-wrap {
@@ -777,82 +800,6 @@ main {
 	color: var(--accent);
 }
 
-/* Footer */
-.footer {
-	background: var(--primary);
-	color: white;
-	padding: 6rem 0 4rem;
-}
-
-.footer-container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-	padding-bottom: 3rem;
-}
-
-.footer-brand .logo {
-	color: white;
-}
-
-.footer-brand .logo-image {
-	background: white;
-	color: var(--primary);
-}
-
-.footer-brand .brand-tag {
-	color: rgba(255, 255, 255, 0.7);
-}
-
-.footer-links {
-	display: flex;
-	gap: 2rem;
-}
-
-.footer-links .nav-link {
-	color: white;
-}
-
-.footer-links .nav-link::after {
-	background: white;
-}
-
-.footer-socials-wrap {
-	display: flex;
-	align-items: center;
-	gap: 3rem;
-}
-
-.socials {
-	display: flex;
-	gap: 15px;
-}
-
-.social-link {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-decoration: none;
-	transition: all 0.3s ease;
-}
-
-.social-link:hover {
-	background: white;
-	color: var(--primary);
-}
-
-.footer-handwritten {
-	color: white;
-	font-size: 1.5rem;
-	text-align: right;
-	opacity: 0.9;
-}
 
 /* Investor Banner */
 .investor-banner {
@@ -1114,8 +1061,8 @@ body.menu-open {
 		height: 400px; /* shorter on tablet */
 	}
 
-	.news-grid {
-		grid-template-columns: repeat(2, 1fr);
+	.feature-card, .news-card {
+		flex: 0 0 calc(50% - 1rem);
 	}
 
 	.banner-inner {
@@ -1124,41 +1071,13 @@ body.menu-open {
 		text-align: center;
 	}
 
-	/* Footer - 2 columns for tablet */
-	.footer-container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 3rem;
-		align-items: start;
-	}
-	
-	.footer-links {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		align-items: flex-end;
-	}
 
-	.footer-socials-wrap {
-		grid-column: 1 / -1;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		padding-top: 2rem;
-		border-top: 1px solid rgba(255,255,255,0.1);
-	}
 }
 
 /* MOBILE - Max 768px */
 @media (max-width: 768px) {
-	.philosophy-grid {
-		grid-template-columns: 1fr;
-		gap: 2.5rem;
-	}
-	
-	.news-grid {
-		grid-template-columns: 1fr;
+	.feature-card, .news-card {
+		flex: 0 0 calc(85% - 1rem);
 	}
 
 	/* Hero adjustments for mobile */
@@ -1187,36 +1106,5 @@ body.menu-open {
 		right: 5%;
 		bottom: auto;
 		font-size: 1.2rem;
-	}
-	
-	/* Footer - 1 column for mobile */
-	.footer-container {
-		grid-template-columns: 1fr;
-		text-align: center;
-		gap: 2.5rem;
-	}
-
-	.footer-links {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.footer-brand .logo {
-		justify-content: center;
-	}
-
-	.footer-socials-wrap {
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		gap: 2rem;
-		padding-top: 2rem;
-	}
-	
-	.footer-handwritten {
-		margin-top: 1rem;
-		text-align: center;
 	}
 }
