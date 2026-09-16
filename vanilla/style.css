@@ -357,7 +357,7 @@ main {
 
 .nav-links {
 	display: flex;
-	gap: 2rem;
+	gap: 1.5rem;
 }
 
 .nav-link {
