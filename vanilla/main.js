@@ -127,4 +127,21 @@ document.addEventListener('DOMContentLoaded', () => {
         banner.classList.add('closed');
     });
 
+    // --- Mobile Menu Toggle ---
+    const menuBtn = document.querySelector('.menu-btn');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            document.body.classList.toggle('menu-open');
+        });
+
+        // Close menu when a link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                document.body.classList.remove('menu-open');
+            });
+        });
+    }
+
 });
