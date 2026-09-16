@@ -1,3 +1,6 @@
+// Mark HTML element immediately so CSS animations are enabled
+document.documentElement.classList.add('js');
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // --- Page Loader ---
