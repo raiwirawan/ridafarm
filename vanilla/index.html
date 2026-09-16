@@ -55,42 +55,45 @@
     <main>
         <!-- Hero Section -->
         <section class="hero">
-            <div class="hero-bg"></div>
-            <div class="container hero-container">
-                <div class="hero-content">
-                    <h1 class="hero-title animate-text">Pure Goodness<br>from Our Farm<br>to Your Family</h1>
-                    <p class="hero-desc animate-fade-up">Fresh goat milk and yogurt from Rida Farm Bali.<br>Natural nutrition, healthier tomorrow.</p>
-                    <div class="hero-buttons animate-fade-up">
-                        <a href="#" class="btn btn-primary magnetic">
-                            <i class="fa-regular fa-calendar"></i> Book a Farm Tour <i class="fa-solid fa-arrow-right icon-right"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline magnetic">
-                            Explore Products <i class="fa-solid fa-arrow-right icon-right"></i>
-                        </a>
-                    </div>
+            <!-- Full width background image -->
+            <div class="hero-bg-wrap">
+                <img src="https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&q=80&w=1920" alt="Goat at Rida Farm" class="hero-bg-img">
+                <div class="hero-overlay"></div>
+            </div>
+
+            <!-- Left: text content -->
+            <div class="hero-content">
+                <h1 class="hero-title animate-text">Pure Goodness<br>from Our Farm<br>to Your Family</h1>
+                <p class="hero-desc animate-fade-up">Fresh goat milk and yogurt from Rida Farm Bali.<br>Natural nutrition, healthier tomorrow.</p>
+                <div class="hero-buttons animate-fade-up">
+                    <a href="#" class="btn btn-primary magnetic">
+                        <i class="fa-regular fa-calendar"></i> Book a Farm Tour <i class="fa-solid fa-arrow-right icon-right"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-white magnetic">
+                        Explore Products <i class="fa-solid fa-arrow-right icon-right"></i>
+                    </a>
                 </div>
-                <div class="hero-visual">
-                    <div class="hero-image-wrap reveal-wrap">
-                        <img src="https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&q=80&w=1200" alt="Goat" class="hero-img parallax-img">
-                    </div>
-                    <div class="hero-float play-btn-wrap animate-scale">
-                        <a href="#" class="play-btn magnetic">
-                            <i class="fa-solid fa-play"></i>
-                        </a>
-                        <span class="play-text">Watch<br>Farm Tour</span>
-                        <svg class="drawn-arrow" width="40" height="40" viewBox="0 0 100 100">
-                            <path d="M10,10 Q50,90 90,50" fill="none" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#fff" />
-                                </marker>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="hero-float handwritten hero-handwritten animate-fade-up" style="transition-delay: 0.8s;">
-                        Healthy Goats<br>Happier Families
-                    </div>
-                </div>
+            </div>
+
+            <!-- Top-right: play button -->
+            <div class="hero-play animate-scale">
+                <a href="#" class="play-btn magnetic">
+                    <i class="fa-solid fa-play"></i>
+                </a>
+                <span class="play-text">Watch<br>Farm Tour</span>
+                <svg class="drawn-arrow" width="40" height="40" viewBox="0 0 100 100">
+                    <path d="M20,20 Q40,80 80,60" fill="none" stroke="#fff" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+                    <defs>
+                        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#fff" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <!-- Bottom-right: handwritten text -->
+            <div class="hero-handwritten handwritten animate-fade-up" style="transition-delay: 0.8s;">
+                Healthy Goats<br>Happier Families
             </div>
         </section>
 
@@ -113,11 +116,8 @@
                     <div class="about-visual">
                         <div class="about-img-main reveal-wrap">
                             <img src="https://images.unsplash.com/photo-1580271920379-1436b1715545?auto=format&fit=crop&q=80&w=800" alt="Farmer" class="parallax-img" data-speed="0.05">
+                            <div class="handwritten about-handwritten animate-fade-up">Care<br>Nurture<br>Better Lives <i class="fa-regular fa-heart"></i></div>
                         </div>
-                        <div class="about-img-secondary reveal-wrap" style="transition-delay: 0.3s;">
-                            <img src="https://images.unsplash.com/photo-1593750187970-84858a2aaf5e?auto=format&fit=crop&q=80&w=600" alt="Goats" class="parallax-img" data-speed="-0.05">
-                        </div>
-                        <div class="handwritten about-handwritten animate-fade-up">Care<br>Nurture<br>Better Lives <i class="fa-regular fa-heart"></i></div>
                     </div>
                 </div>
             </div>
@@ -181,17 +181,9 @@
                     <div class="products-visual">
                         <div class="products-img-wrap reveal-wrap">
                             <img src="https://images.unsplash.com/photo-1517448931760-9bf4414148c5?auto=format&fit=crop&q=80&w=800" alt="Products" class="parallax-img">
-                        </div>
-                        <div class="handwritten products-handwritten animate-scale">
-                            Rasa Alami<br>untuk Hari yang<br>Lebih Baik <i class="fa-regular fa-heart"></i>
-                            <svg class="drawn-arrow-2" width="40" height="40" viewBox="0 0 100 100">
-                                <path d="M10,10 Q50,90 90,50" fill="none" stroke="#68725f" stroke-width="2" marker-end="url(#arrowhead2)"/>
-                                <defs>
-                                    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                        <polygon points="0 0, 10 3.5, 0 7" fill="#68725f" />
-                                    </marker>
-                                </defs>
-                            </svg>
+                            <div class="handwritten products-handwritten animate-scale">
+                                Rasa Alami<br>untuk Hari yang<br>Lebih Baik <i class="fa-regular fa-heart"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
