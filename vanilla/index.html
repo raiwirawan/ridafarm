@@ -35,6 +35,9 @@
 			<div class="nav-container">
 				<a href="#" class="logo">
 					<img src="ridafarm-logo.jpg" alt="Rida Farm Bali Logo" class="logo-img">
+					<div class="logo-text">
+						<span class="brand-name">Rida Farm Bali</span>
+					</div>
 				</a>
 				<div class="nav-links">
 					<a href="#" class="nav-link active">Home</a>
@@ -272,13 +275,19 @@
 								Bali.
 							</p>
 						</div>
-						<div class="news-header-right animate-fade-up">
-							<a href="#" class="btn btn-outline magnetic"
-								>View All News <i class="fa-solid fa-arrow-right icon-right"></i
-							></a>
+						<div class="news-header-right animate-fade-up" style="display: flex; gap: 10px;">
+							<button class="btn btn-outline magnetic slider-btn prev-btn" id="newsPrev" disabled>
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<button class="btn btn-outline magnetic slider-btn next-btn" id="newsNext">
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
 						</div>
 					</div>
-					<div class="news-grid">
+				</div>
+				<!-- Break out of container so slider bleeds to the edge -->
+				<div class="news-slider-wrap">
+					<div class="news-grid" id="newsSlider">
 						<a href="#" class="news-card animate-stagger">
 							<div class="news-img-wrap">
 								<img
@@ -323,6 +332,22 @@
 								<h3 class="news-title">The Goodness of Goat Milk</h3>
 								<p class="news-excerpt">
 									Why goat milk is a natural choice for your family.
+								</p>
+							</div>
+						</a>
+						<!-- 4th card to demonstrate the sneak peek slider functionality -->
+						<a href="#" class="news-card animate-stagger">
+							<div class="news-img-wrap">
+								<img
+									src="https://images.unsplash.com/photo-1517448931760-9bf4414148c5?auto=format&fit=crop&q=80&w=600"
+									alt="Farm Fresh Products"
+								/>
+							</div>
+							<div class="news-content">
+								<span class="news-date">Mar 10, 2024</span>
+								<h3 class="news-title">From Farm to Table</h3>
+								<p class="news-excerpt">
+									How our products reach you fresh everyday.
 								</p>
 							</div>
 						</a>

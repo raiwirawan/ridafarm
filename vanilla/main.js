@@ -144,4 +144,133 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- News Slider Logic ---
+    const newsSlider = document.getElementById('newsSlider');
+    const newsPrev = document.getElementById('newsPrev');
+    const newsNext = document.getElementById('newsNext');
+
+    if (newsSlider && newsPrev && newsNext) {
+        const updateSliderButtons = () => {
+            // Disable prev if at start
+            if (newsSlider.scrollLeft <= 10) {
+                newsPrev.disabled = true;
+            } else {
+                newsPrev.disabled = false;
+            }
+
+            // Disable next if at end
+            // scrollWidth is total width, clientWidth is visible width
+            if (newsSlider.scrollLeft + newsSlider.clientWidth >= newsSlider.scrollWidth - 10) {
+                newsNext.disabled = true;
+            } else {
+                newsNext.disabled = false;
+            }
+        };
+
+        // Initialize state
+        updateSliderButtons();
+
+        // Listen for scrolling
+        newsSlider.addEventListener('scroll', updateSliderButtons);
+
+        // Button clicks
+        const scrollAmount = 350 + 32; // card width + gap (approx)
+
+        newsPrev.addEventListener('click', () => {
+            newsSlider.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        newsNext.addEventListener('click', () => {
+            newsSlider.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        // --- Mouse Drag to Scroll ---
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let isDragging = false;
+        let snapTimeout;
+
+        newsSlider.addEventListener('pointerdown', (e) => {
+            if (e.pointerType !== 'mouse' || e.button !== 0) return;
+            isDown = true;
+            isDragging = false;
+            newsSlider.style.cursor = 'grabbing';
+            // Disable scroll-snap and CSS smooth-behavior for 1-to-1 immediate drag updates
+            newsSlider.style.scrollSnapType = 'none';
+            newsSlider.style.scrollBehavior = 'auto';
+            clearTimeout(snapTimeout); // clear any pending snap restores
+            
+            startX = e.pageX - newsSlider.offsetLeft;
+            scrollLeft = newsSlider.scrollLeft;
+        });
+
+        const handlePointerUp = (e) => {
+            if (!isDown || e.pointerType !== 'mouse') return;
+            isDown = false;
+            newsSlider.style.cursor = 'grab';
+            
+            // Re-enable smooth scrolling for the snap animation
+            newsSlider.style.scrollBehavior = 'smooth';
+            
+            // Find closest card to snap to
+            const paddingLeft = parseFloat(window.getComputedStyle(newsSlider).paddingLeft) || 0;
+            const currentScroll = newsSlider.scrollLeft;
+            const newsCards = Array.from(newsSlider.querySelectorAll('.news-card'));
+            
+            let closestCard = newsCards[0];
+            let minDiff = Infinity;
+
+            newsCards.forEach(card => {
+                const targetScroll = card.offsetLeft - paddingLeft;
+                const diff = Math.abs(currentScroll - targetScroll);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closestCard = card;
+                }
+            });
+
+            // Trigger smooth snap manual correction
+            newsSlider.scrollLeft = closestCard.offsetLeft - paddingLeft;
+            
+            // Wait for smooth scroll to finish before giving control back to CSS
+            snapTimeout = setTimeout(() => {
+                if (!isDown) { 
+                    newsSlider.style.scrollSnapType = '';
+                    newsSlider.style.scrollBehavior = '';
+                }
+            }, 600);
+        };
+
+        newsSlider.addEventListener('pointerleave', handlePointerUp);
+        newsSlider.addEventListener('pointerup', handlePointerUp);
+
+        newsSlider.addEventListener('pointermove', (e) => {
+            if (!isDown || e.pointerType !== 'mouse') return;
+            e.preventDefault();
+            const x = e.pageX - newsSlider.offsetLeft;
+            const walk = (x - startX) * 1.5; // smoother multiplier (1.5x)
+            if (Math.abs(walk) > 5) {
+                isDragging = true;
+            }
+            newsSlider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Prevent clicking links when dragging
+        const newsCards = newsSlider.querySelectorAll('.news-card');
+        newsCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                }
+            });
+        });
+    }
+
 });
