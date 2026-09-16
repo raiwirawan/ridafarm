@@ -1,211 +1,143 @@
-// Initialize Lenis for smooth, buttery scrolling (Awwwards staple)
-const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    mouseMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
-    infinite: false,
-})
-
-// Integrate Lenis with GSAP ScrollTrigger
-function raf(time) {
-    lenis.raf(time)
-    requestAnimationFrame(raf)
-}
-requestAnimationFrame(raf)
-
-// Make ScrollTrigger aware of Lenis
-gsap.registerPlugin(ScrollTrigger);
-
-// Update ScrollTrigger on Lenis scroll
-lenis.on('scroll', ScrollTrigger.update)
-
-gsap.ticker.add((time)=>{
-  lenis.raf(time * 1000)
-})
-
-gsap.ticker.lagSmoothing(0)
-
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Mobile Menu Toggle ---
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
+    
+    // --- Page Loader ---
+    const loader = document.querySelector('.loader');
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+            document.body.classList.remove('loading');
+            initAnimations(); // Trigger initial animations
+        }, 1500); // Fake loading time for effect
+    });
 
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+    // --- Custom Cursor ---
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+    let mouseX = 0, mouseY = 0;
+    let outlineX = 0, outlineY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Dot follows instantly
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
+    });
+
+    // Outline follows with delay (lerp)
+    function animateCursor() {
+        let distX = mouseX - outlineX;
+        let distY = mouseY - outlineY;
+        
+        outlineX += distX * 0.15;
+        outlineY += distY * 0.15;
+        
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+        
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover effect on links and buttons
+    const interactives = document.querySelectorAll('a, button, .magnetic');
+    interactives.forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    });
+
+
+    // --- Intersection Observer for Entry Animations ---
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                // Optional: stop observing once animated
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    function initAnimations() {
+        const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-text, .reveal-wrap, .animate-scale');
+        animatedElements.forEach(el => observer.observe(el));
+
+        // Handle stagger animations specifically
+        const staggerGroups = [
+            document.querySelectorAll('.philosophy-grid .animate-stagger'),
+            document.querySelectorAll('.news-grid .animate-stagger')
+        ];
+
+        staggerGroups.forEach(group => {
+            group.forEach((el, index) => {
+                el.style.transitionDelay = `${index * 0.2}s`;
+                observer.observe(el);
+            });
         });
     }
 
-    const links = document.querySelectorAll('.nav-links a');
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
+    // --- Parallax Effect ---
+    const parallaxElements = document.querySelectorAll('.parallax-img');
+    
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        
+        parallaxElements.forEach(el => {
+            const speed = el.getAttribute('data-speed') || 0.1;
+            // Only parallax if element is roughly in view
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                const yPos = -(rect.top * speed);
+                el.style.transform = `translateY(${yPos}px) scale(1.1)`; // scale slightly to avoid clipping edges
             }
         });
-    });
-
-    // --- Navbar Scroll Effect ---
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
+        
+        // Navbar Scrolled State
+        const navbar = document.querySelector('.navbar');
+        if (scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
     });
 
-    // --- GSAP ANIMATIONS ---
-    
-    // 1. Hero Reveal Animation
-    const tlHero = gsap.timeline();
-    
-    // Parallax effect on hero background
-    gsap.to('.hero', {
-        backgroundPosition: `50% 100%`,
-        ease: "none",
-        scrollTrigger: {
-            trigger: '.hero',
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-        }
-    });
-
-    tlHero.fromTo('.hero-content h1', 
-        { y: 100, opacity: 0, clipPath: 'inset(100% 0 0 0)' },
-        { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0)', duration: 1.5, ease: 'power4.out', delay: 0.2 }
-    )
-    .fromTo('.hero-content p',
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
-        '-=1'
-    )
-    .fromTo('.hero-content .btn',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-        '-=0.8'
-    );
-
-    // 2. Sections Reveal (Titles & Subtitles)
-    gsap.utils.toArray('.section-title').forEach(title => {
-        gsap.fromTo(title,
-            { y: 80, opacity: 0, rotationX: -20 },
-            { 
-                y: 0, opacity: 1, rotationX: 0, 
-                duration: 1.2, 
-                ease: 'expo.out',
-                scrollTrigger: {
-                    trigger: title,
-                    start: 'top 85%',
-                }
-            }
-        );
-    });
-
-    // 3. Cards Stagger Animation (Products)
-    gsap.fromTo('.card',
-        { y: 100, opacity: 0 },
-        {
-            y: 0, opacity: 1,
-            duration: 1,
-            stagger: 0.15,
-            ease: 'back.out(1.2)',
-            scrollTrigger: {
-                trigger: '.cards-grid',
-                start: 'top 80%'
-            }
-        }
-    );
-
-    // 4. Map Timeline Animation
-    const timelineItems = gsap.utils.toArray('.timeline-item');
-    gsap.fromTo(timelineItems,
-        { x: -50, opacity: 0 },
-        {
-            x: 0, opacity: 1,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.map-timeline',
-                start: 'top 75%'
-            }
-        }
-    );
-
-    gsap.fromTo('.map-placeholder',
-        { scale: 0.9, opacity: 0 },
-        {
-            scale: 1, opacity: 1,
-            duration: 1.2,
-            ease: 'expo.out',
-            scrollTrigger: {
-                trigger: '.map-container',
-                start: 'top 80%'
-            }
-        }
-    );
-
-    // 5. Pricing Cards Animation
-    gsap.fromTo('.pricing-card',
-        { y: 80, opacity: 0, rotateY: 15 },
-        {
-            y: 0, opacity: 1, rotateY: 0,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: 'power4.out',
-            scrollTrigger: {
-                trigger: '.pricing-grid',
-                start: 'top 80%'
-            }
-        }
-    );
-
-    // --- Hover Magnet Effect for Buttons (Awwwards Style) ---
-    const magnetBtns = document.querySelectorAll('.btn, .logo, .nav-links a');
-    magnetBtns.forEach(btn => {
+    // --- Magnetic Buttons ---
+    const magneticBtns = document.querySelectorAll('.magnetic');
+    magneticBtns.forEach(btn => {
         btn.addEventListener('mousemove', (e) => {
             const rect = btn.getBoundingClientRect();
-            const x = (e.clientX - rect.left) - rect.width / 2;
-            const y = (e.clientY - rect.top) - rect.height / 2;
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
             
-            // Subtle movement
-            gsap.to(btn, {
-                x: x * 0.2,
-                y: y * 0.2,
-                duration: 0.4,
-                ease: 'power2.out'
-            });
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
         });
-
+        
         btn.addEventListener('mouseleave', () => {
-            gsap.to(btn, {
-                x: 0,
-                y: 0,
-                duration: 0.7,
-                ease: 'elastic.out(1, 0.3)'
-            });
+            btn.style.transform = `translate(0px, 0px)`;
         });
     });
 
-    // Smooth scroll for anchor links using Lenis
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            lenis.scrollTo(targetId, {
-                offset: -80, // Navbar height compensation
-                duration: 1.5,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-            });
-        });
+    // --- Sticky Investor Banner ---
+    const banner = document.querySelector('.investor-banner');
+    const closeBanner = document.querySelector('.banner-close');
+    
+    // Show banner after scroll down
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500 && !banner.classList.contains('closed')) {
+            banner.classList.add('show');
+        }
     });
+
+    closeBanner.addEventListener('click', () => {
+        banner.classList.remove('show');
+        banner.classList.add('closed');
+    });
+
 });

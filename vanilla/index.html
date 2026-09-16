@@ -1,239 +1,308 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rida Farm Bali</title>
-    <link rel="stylesheet" href="/vanilla/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="loading">
+    
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
-    <!-- Header / Navbar -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">Rida Farm <span>Bali</span></a>
-            <nav class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#products">Produk</a>
-                <a href="#map">Denah Farm Tour</a>
-                <a href="#kemitraan">Kemitraan</a>
-            </nav>
-            <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    <!-- Page Loader -->
+    <div class="loader">
+        <div class="loader-text">Rida Farm Bali</div>
+        <div class="loader-progress"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-image">
+                    <!-- Text based logo for placeholder to mimic the real one -->
+                    <span class="logo-main">Rida</span>
+                    <span class="logo-sub">FARM & DAIRY</span>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ridafarmbali</span>
+                    <span class="brand-tag">Good Milk &middot; Brighter Tomorrows</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">About Us</a>
+                <a href="#" class="nav-link">Our Products</a>
+                <a href="#" class="nav-link">News</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="container hero-content">
-            <h1>Selamat Datang di Rida Farm Bali</h1>
-            <p>Peternakan modern dengan produk susu dan yogurt berkualitas, serta pengalaman farm tour yang tak terlupakan di alam Bali.</p>
-            <a href="#products" class="btn btn-primary">Jelajahi Produk Kami</a>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section id="products" class="section bg-light">
-        <div class="container">
-            <h2 class="section-title">Produk & Layanan Kami</h2>
-            <div class="cards-grid">
-                <!-- Product 1 -->
-                <div class="card">
-                    <div class="card-img" style="background-color: #e0f7fa;">
-                        <i class="fas fa-glass-whiskey fa-3x" style="color: #00bcd4;"></i>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title animate-text">Pure Goodness<br>from Our Farm<br>to Your Family</h1>
+                    <p class="hero-desc animate-fade-up">Fresh goat milk and yogurt from Rida Farm Bali.<br>Natural nutrition, healthier tomorrow.</p>
+                    <div class="hero-buttons animate-fade-up">
+                        <a href="#" class="btn btn-primary magnetic">
+                            <i class="fa-regular fa-calendar"></i> Book a Farm Tour <i class="fa-solid fa-arrow-right icon-right"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline magnetic">
+                            Explore Products <i class="fa-solid fa-arrow-right icon-right"></i>
+                        </a>
                     </div>
-                    <div class="card-content">
-                        <h3>Susu Segar</h3>
-                        <p>Susu sapi murni berkualitas tinggi, diproses secara higienis langsung dari peternakan kami setiap hari untuk nutrisi keluarga Anda.</p>
-                        
-                        <div class="product-footer">
-                            <div class="product-price">
-                                <span class="price-val">Rp 20.000</span>
-                                <span class="price-unit">/ Liter</span>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-image-wrap reveal-wrap">
+                        <img src="https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&q=80&w=1200" alt="Goat" class="hero-img parallax-img">
+                    </div>
+                    <div class="hero-float play-btn-wrap animate-scale">
+                        <a href="#" class="play-btn magnetic">
+                            <i class="fa-solid fa-play"></i>
+                        </a>
+                        <span class="play-text">Watch<br>Farm Tour</span>
+                        <svg class="drawn-arrow" width="40" height="40" viewBox="0 0 100 100">
+                            <path d="M10,10 Q50,90 90,50" fill="none" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#fff" />
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="hero-float handwritten hero-handwritten animate-fade-up" style="transition-delay: 0.8s;">
+                        Healthy Goats<br>Happier Families
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about section-padding bg-white">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <div class="subheading animate-fade-up">
+                            <span class="line"></span> OUR STORY
+                        </div>
+                        <h2 class="animate-text">About Us</h2>
+                        <h3 class="animate-text">More Than a Farm,<br>A Healthier Tomorrow</h3>
+                        <p class="animate-fade-up">Rida Farm Bali is built on a simple belief: healthy goats create wholesome food for healthier families. We nurture our goats with care, respect, and a natural environment, producing fresh and nutritious milk and yogurt for your everyday life.</p>
+                        <div class="animate-fade-up mt-4">
+                            <a href="#" class="btn btn-primary magnetic">Our Story <i class="fa-solid fa-arrow-right icon-right"></i></a>
+                        </div>
+                        <div class="quote handwritten animate-fade-up">"Good food brings people closer to a brighter tomorrow."</div>
+                    </div>
+                    <div class="about-visual">
+                        <div class="about-img-main reveal-wrap">
+                            <img src="https://images.unsplash.com/photo-1580271920379-1436b1715545?auto=format&fit=crop&q=80&w=800" alt="Farmer" class="parallax-img" data-speed="0.05">
+                        </div>
+                        <div class="about-img-secondary reveal-wrap" style="transition-delay: 0.3s;">
+                            <img src="https://images.unsplash.com/photo-1593750187970-84858a2aaf5e?auto=format&fit=crop&q=80&w=600" alt="Goats" class="parallax-img" data-speed="-0.05">
+                        </div>
+                        <div class="handwritten about-handwritten animate-fade-up">Care<br>Nurture<br>Better Lives <i class="fa-regular fa-heart"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section class="philosophy section-padding">
+            <div class="container text-center">
+                <div class="subheading justify-center animate-fade-up">
+                    <span class="line"></span> OUR PHILOSOPHY <span class="line"></span>
+                </div>
+                <h2 class="animate-text section-title">Simple Values, A Healthier World</h2>
+                <div class="philosophy-grid">
+                    <div class="feature-card animate-stagger">
+                        <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+                        <h3>Animal Care</h3>
+                        <p>Happy and healthy goats are the heart of everything we do.</p>
+                    </div>
+                    <div class="feature-card animate-stagger">
+                        <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
+                        <h3>Freshness</h3>
+                        <p>From our farm to your table, we ensure natural, fresh, and high-quality dairy products.</p>
+                    </div>
+                    <div class="feature-card animate-stagger">
+                        <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                        <h3>From Farm to Family</h3>
+                        <p>Nutritious food that brings families closer, today and for generations to come.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products section-padding bg-white">
+            <div class="container">
+                <div class="products-grid">
+                    <div class="products-content">
+                        <div class="subheading animate-fade-up">
+                            <span class="line"></span> OUR PRODUCTS
+                        </div>
+                        <h2 class="animate-text">Natural Nutrition<br>for a Better You</h2>
+                        <p class="animate-fade-up">Delicious and nutritious goat milk and yogurt made with care at Rida Farm Bali. Pure, natural, and full of goodness for your family's daily health.</p>
+                        <div class="animate-fade-up mt-4">
+                            <a href="#" class="btn btn-primary magnetic">View All Products <i class="fa-solid fa-arrow-right icon-right"></i></a>
+                        </div>
+                        <div class="product-features animate-fade-up">
+                            <div class="p-feature">
+                                <div class="p-icon"><i class="fa-solid fa-leaf"></i></div>
+                                <span>100% Natural</span>
                             </div>
-                            <div class="product-action">
-                                <i class="fas fa-arrow-right"></i>
+                            <div class="p-feature">
+                                <div class="p-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                <span>Healthy Choice</span>
+                            </div>
+                            <div class="p-feature">
+                                <div class="p-icon"><i class="fa-solid fa-users"></i></div>
+                                <span>For the Whole Family</span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Product 2 -->
-                <div class="card">
-                    <div class="card-img" style="background-color: #fce4ec;">
-                        <i class="fas fa-ice-cream fa-3x" style="color: #e91e63;"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>Yogurt Premium</h3>
-                        <p>Yogurt lezat dengan probiotik alami yang baik untuk pencernaan. Tersedia dalam berbagai varian rasa buah segar yang disukai semua usia.</p>
-                        
-                        <div class="product-footer">
-                            <div class="product-price">
-                                <span class="price-val">Rp 15.000</span>
-                                <span class="price-unit">/ Cup</span>
-                            </div>
-                            <div class="product-action">
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
+                    <div class="products-visual">
+                        <div class="products-img-wrap reveal-wrap">
+                            <img src="https://images.unsplash.com/photo-1517448931760-9bf4414148c5?auto=format&fit=crop&q=80&w=800" alt="Products" class="parallax-img">
                         </div>
-                    </div>
-                </div>
-                <!-- Product 3 -->
-                <div class="card">
-                    <div class="card-img" style="background-color: #e8f5e9;">
-                        <i class="fas fa-tractor fa-3x" style="color: #4caf50;"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>Farm Tour</h3>
-                        <p>Edukasi peternakan interaktif untuk keluarga. Berinteraksi langsung dengan hewan ternak dan pelajari proses produksi susu dari hulu ke hilir.</p>
-                        
-                        <div class="product-footer">
-                            <div class="product-price">
-                                <span class="price-unit label">Start from</span>
-                                <span class="price-val">Rp 50.000</span>
-                            </div>
-                            <div class="product-action">
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
+                        <div class="handwritten products-handwritten animate-scale">
+                            Rasa Alami<br>untuk Hari yang<br>Lebih Baik <i class="fa-regular fa-heart"></i>
+                            <svg class="drawn-arrow-2" width="40" height="40" viewBox="0 0 100 100">
+                                <path d="M10,10 Q50,90 90,50" fill="none" stroke="#68725f" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                                <defs>
+                                    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#68725f" />
+                                    </marker>
+                                </defs>
+                            </svg>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Denah / Map Section -->
-    <section id="map" class="section">
-        <div class="container">
-            <h2 class="section-title">Denah & Rute Farm Tour</h2>
-            <div class="map-container">
-                <div class="map-content">
-                    <div class="map-placeholder">
-                        <i class="fas fa-map-marked-alt fa-4x" style="color: #4caf50; margin-bottom: 20px;"></i>
-                        <h3>Peta Area Rida Farm</h3>
-                        <p>Gunakan denah ini untuk memandu perjalanan Farm Tour Anda.</p>
+        <!-- News Section -->
+        <section class="news section-padding">
+            <div class="container">
+                <div class="news-header">
+                    <div class="news-header-left">
+                        <div class="subheading animate-fade-up">
+                            <span class="line"></span> NEWS & STORIES
+                        </div>
+                        <h2 class="animate-text">Latest from the Farm</h2>
+                        <p class="animate-fade-up">Stories, updates, and inspiration from our journey at Rida Farm Bali.</p>
                     </div>
-                    <div class="map-timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot">1</div>
-                            <div class="timeline-text">Area Parkir & Registrasi</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot">2</div>
-                            <div class="timeline-text">Kandang Sapi Perah (Edukasi & Interaksi)</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot">3</div>
-                            <div class="timeline-text">Area Pengolahan Susu & Yogurt</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot">4</div>
-                            <div class="timeline-text">Taman Bermain Anak</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot">5</div>
-                            <div class="timeline-text">Cafe & Toko Oleh-oleh</div>
-                        </div>
+                    <div class="news-header-right animate-fade-up">
+                        <a href="#" class="btn btn-outline magnetic">View All News <i class="fa-solid fa-arrow-right icon-right"></i></a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Kemitraan / Investment Section -->
-    <section id="kemitraan" class="section bg-dark text-white">
-        <div class="container">
-            <h2 class="section-title text-white">Peluang Kemitraan & Investasi</h2>
-            <p class="section-subtitle">Bergabunglah bersama Rida Farm Bali dan nikmati pertumbuhan bisnis peternakan yang menjanjikan dengan Return on Investment (ROI) yang aman dan menguntungkan.</p>
-            
-            <div class="pricing-grid">
-                <!-- Paket 1 -->
-                <div class="pricing-card">
-                    <h3>Paket Pemula</h3>
-                    <div class="price">Rp 20 Juta</div>
-                    <p class="paket-desc">Cocok untuk investasi awal</p>
-                    <ul class="features">
-                        <li><i class="fas fa-check"></i> Kepemilikan 1 ekor kambing betina perah</li>
-                        <li><i class="fas fa-check"></i> Estimasi ROI: stabil 5% per tahun</li>
-                        <li><i class="fas fa-check"></i> Laporan operasional kuartalan</li>
-                        <li><i class="fas fa-check"></i> Kontrak minimal 2 tahun</li>
-                    </ul>
-                    <a href="#" class="btn btn-outline-light">Pilih Paket</a>
-                </div>
-                
-                <!-- Paket 2 -->
-                <div class="pricing-card popular">
-                    <div class="ribbon">Best Value</div>
-                    <h3>Paket Menengah</h3>
-                    <div class="price">Rp 60 Juta</div>
-                    <p class="paket-desc">Pilihan terpopuler investor</p>
-                    <ul class="features">
-                        <li><i class="fas fa-check"></i> Kepemilikan 3 ekor kambing betina perah</li>
-                        <li><i class="fas fa-check"></i> Estimasi ROI: stabil 5% per tahun</li>
-                        <li><i class="fas fa-check"></i> Laporan bulanan via sistem</li>
-                        <li><i class="fas fa-check"></i> Kontrak minimal 3 tahun</li>
-                        <li><i class="fas fa-check"></i> 3 Tiket VIP Farm Tour per tahun</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Pilih Paket</a>
-                </div>
-                
-                <!-- Paket 3 -->
-                <div class="pricing-card">
-                    <h3>Paket Pro</h3>
-                    <div class="price">Rp 100 Juta</div>
-                    <p class="paket-desc">Skala bisnis yang lebih besar</p>
-                    <ul class="features">
-                        <li><i class="fas fa-check"></i> Kepemilikan 5 ekor kambing betina perah</li>
-                        <li><i class="fas fa-check"></i> Estimasi ROI: stabil 5% per tahun</li>
-                        <li><i class="fas fa-check"></i> Laporan real-time komprehensif</li>
-                        <li><i class="fas fa-check"></i> Kontrak minimal 5 tahun</li>
-                        <li><i class="fas fa-check"></i> Profit sharing ekstra olahan susu kambing</li>
-                    </ul>
-                    <a href="#" class="btn btn-outline-light">Pilih Paket</a>
+                <div class="news-grid">
+                    <a href="#" class="news-card animate-stagger">
+                        <div class="news-img-wrap">
+                            <img src="https://images.unsplash.com/photo-1499115421298-dc3b4fe66c58?auto=format&fit=crop&q=80&w=600" alt="Happy Goats">
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">May 15, 2024</span>
+                            <h3 class="news-title">Happy Goats, Healthier Lives</h3>
+                            <p class="news-excerpt">A closer look at how we care for our goats every day.</p>
+                        </div>
+                    </a>
+                    <a href="#" class="news-card animate-stagger">
+                        <div class="news-img-wrap">
+                            <img src="https://images.unsplash.com/photo-1596426924463-983524bf0085?auto=format&fit=crop&q=80&w=600" alt="People and Goats">
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">Apr 20, 2024</span>
+                            <h3 class="news-title">People, Goats, and a Brighter Tomorrow</h3>
+                            <p class="news-excerpt">Meet the hands behind Rida Farm Bali.</p>
+                        </div>
+                    </a>
+                    <a href="#" class="news-card animate-stagger">
+                        <div class="news-img-wrap">
+                            <img src="https://images.unsplash.com/photo-1523473827533-2a64d0d36748?auto=format&fit=crop&q=80&w=600" alt="Goodness of Goat Milk">
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">Apr 15, 2024</span>
+                            <h3 class="news-title">The Goodness of Goat Milk</h3>
+                            <p class="news-excerpt">Why goat milk is a natural choice for your family.</p>
+                        </div>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <h2>Rida Farm <span>Bali</span></h2>
-                <p>Menghadirkan produk peternakan berkualitas dan pengalaman edukatif di tengah keindahan alam Bali.</p>
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-col footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-image">
+                        <span class="logo-main">Rida</span>
+                    </div>
+                    <div class="logo-text">
+                        <span class="brand-name">ridafarmbali</span>
+                        <span class="brand-tag">Good Milk &middot; Brighter Tomorrows</span>
+                    </div>
+                </a>
+            </div>
+            <div class="footer-col footer-links">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About Us</a>
+                <a href="#" class="nav-link">Our Products</a>
+                <a href="#" class="nav-link">News</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            <div class="footer-col footer-socials-wrap">
                 <div class="socials">
-                    <a href="https://www.instagram.com/ridafarmbali/" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-link magnetic"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link magnetic"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-link magnetic"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <div class="handwritten footer-handwritten">
+                    Pure Goodness<br>A Brighter Tomorrow <i class="fa-regular fa-heart"></i>
                 </div>
             </div>
-            <div class="footer-links">
-                <h3>Navigasi</h3>
-                <ul>
-                    <li><a href="#home">Beranda</a></li>
-                    <li><a href="#products">Produk</a></li>
-                    <li><a href="#map">Farm Tour</a></li>
-                    <li><a href="#kemitraan">Investasi</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h3>Hubungi Kami</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Denpasar, Bali, Indonesia</p>
-                <p><i class="fas fa-phone"></i> +62 812 3456 7890</p>
-                <p><i class="fas fa-envelope"></i> info@ridafarmbali.com</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Rida Farm Bali. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Premium Animation Libraries (Lenis for smooth scroll, GSAP for animations) -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <script src="/vanilla/main.js"></script>
+    <!-- Sticky Investor Banner -->
+    <div class="investor-banner">
+        <div class="container banner-inner">
+            <div class="banner-left">
+                <i class="fa-solid fa-chart-line text-green"></i>
+                <span class="banner-title">Welcoming Investors</span>
+            </div>
+            <div class="banner-center">
+                Invest now and grow with ridafarmbali — get more value later.
+            </div>
+            <div class="banner-right">
+                <a href="#" class="btn btn-primary btn-sm magnetic">
+                    <i class="fa-solid fa-chart-line"></i> Invest Now <i class="fa-solid fa-arrow-right icon-right"></i>
+                </a>
+                <button class="banner-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JS -->
+    <script src="main.js"></script>
 </body>
 </html>
