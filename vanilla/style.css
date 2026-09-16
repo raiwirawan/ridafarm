@@ -446,6 +446,7 @@ main {
 	bottom: 10%;
 	left: 5%;
 	max-width: 480px;
+	animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
 .hero-title {
@@ -461,6 +462,7 @@ main {
 	margin-bottom: 2rem;
 	color: rgba(255, 255, 255, 0.9);
 	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+	animation-delay: 0.5s;
 }
 
 .hero-buttons {
@@ -468,6 +470,18 @@ main {
 	flex-direction: column;
 	gap: 0.8rem;
 	align-items: flex-start;
+	animation-delay: 0.7s;
+}
+
+@keyframes heroFadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .btn-outline-white {
@@ -483,14 +497,15 @@ main {
 
 /* Top-right: play button */
 .hero-play {
-	position: absolute;
-	z-index: 3;
-	top: 40%;
-	right: 6%;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	transform: translateY(-50%);
+    position: absolute;
+    z-index: 3;
+    top: 40%;
+    right: 6%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(-50%);
+    animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
 }
 
 .play-btn {
@@ -534,16 +549,17 @@ main {
 
 /* Bottom-right: handwritten */
 .hero-handwritten {
-	position: absolute;
-	z-index: 3;
-	bottom: 8%;
-	right: 5%;
-	color: white;
-	font-size: 1.6rem;
-	line-height: 1.3;
-	text-align: right;
-	transform: rotate(-5deg);
-	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    z-index: 3;
+    bottom: 8%;
+    right: 5%;
+    color: white;
+    font-size: 1.6rem;
+    line-height: 1.3;
+    text-align: right;
+    transform: rotate(-5deg);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1s both;
 }
 
 /* About Section */
