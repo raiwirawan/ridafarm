@@ -40,15 +40,22 @@
 					</div>
 				</a>
 				<div class="nav-links">
-					<a href="#" class="nav-link active">Home</a>
-					<a href="#" class="nav-link">About Us</a>
-					<a href="#" class="nav-link">Our Products</a>
-					<a href="#" class="nav-link">News</a>
-					<a href="#" class="nav-link">Contact</a>
-					<a href="#" class="nav-link">Farm Tour</a>
-					<a href="#" class="nav-link">Investment</a>
+					<a href="#home" class="nav-link active" data-i18n="nav_home">Home</a>
+					<a href="#about" class="nav-link" data-i18n="nav_about">About Us</a>
+					<a href="#products" class="nav-link" data-i18n="nav_products">Our Products</a>
+					<a href="#news" class="nav-link" data-i18n="nav_news">News</a>
+					<a href="#" class="nav-link" data-i18n="nav_contact">Contact</a>
+					<a href="#" class="nav-link" data-i18n="nav_tour">Farm Tour</a>
+					<a href="#" class="nav-link" data-i18n="nav_invest">Investment</a>
+				</div>
+				
+				<div class="lang-switcher">
+					<button class="lang-btn active" data-lang="en">EN</button>
+					<span class="lang-sep">|</span>
+					<button class="lang-btn" data-lang="id">ID</button>
 				</div>
 				<div class="nav-actions">
+
 					<button class="menu-btn" aria-label="Toggle menu">
 						<span class="hamburger"></span>
 					</button>
@@ -58,7 +65,7 @@
 
 		<main>
 			<!-- Hero Section -->
-			<section class="hero">
+			<section class="hero" id="home">
 				<!-- Full width background image -->
 				<div class="hero-bg-wrap">
 					<img
@@ -75,7 +82,7 @@
 						Pure Goodness<br />from Our Farm<br />to Your Family
 					</h1>
 					<p class="hero-desc">
-						Fresh goat milk and yogurt from Rida Farm Bali.<br />Natural
+						Fresh goat milk and yogurt from Rida Farm <br />Natural
 						nutrition, healthier tomorrow.
 					</p>
 					<div class="hero-buttons">
@@ -84,7 +91,7 @@
 							<i class="fa-solid fa-arrow-right icon-right"></i>
 						</a>
 						<a href="#" class="btn btn-outline-white magnetic">
-							Explore Products
+							<span data-i18n="hero_btn_explore">Explore Products</span>
 							<i class="fa-solid fa-arrow-right icon-right"></i>
 						</a>
 					</div>
@@ -126,7 +133,7 @@
 			</section>
 
 			<!-- About Section -->
-			<section class="about section-padding bg-white">
+			<section class="about section-padding bg-white" id="about">
 				<div class="container">
 					<div class="about-grid">
 						<div class="about-content">
@@ -160,7 +167,7 @@
 									class="parallax-img"
 									data-speed="0.05"
 								/>
-								<div class="handwritten about-handwritten animate-fade-up">
+								<div class="handwritten about-handwritten animate-fade-up" data-i18n="about_handwritten">
 									Care<br />Nurture<br />Better Lives
 									<i class="fa-regular fa-heart"></i>
 								</div>
@@ -171,34 +178,34 @@
 			</section>
 
 			<!-- Philosophy Section -->
-			<section class="philosophy section-padding">
+			<section class="philosophy section-padding" id="philosophy">
 				<div class="container text-center">
 					<div class="subheading justify-center animate-fade-up">
-						<span class="line"></span> OUR PHILOSOPHY <span class="line"></span>
+						<span class="line"></span> <span data-i18n="phil_sub">OUR PHILOSOPHY</span> <span class="line"></span>
 					</div>
-					<h2 class="animate-text section-title">
-						Simple Values, A Healthier World
+					<h2 class="animate-text section-title" data-i18n="about_title">
+						<span data-i18n="phil_title">Simple Values, A Healthier World</span>
 					</h2>
 					<div class="philosophy-grid">
 						<div class="feature-card animate-stagger">
 							<div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
-							<h3>Animal Care</h3>
-							<p>Happy and healthy goats are the heart of everything we do.</p>
+							<h3 data-i18n="phil_card1_title">Animal Care</h3>
+							<p data-i18n="phil_card1_desc">Happy and healthy goats are the heart of everything we do.</p>
 						</div>
 						<div class="feature-card animate-stagger">
 							<div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
-							<h3>Freshness</h3>
+							<h3 data-i18n="phil_card2_title">Freshness</h3>
 							<p>
-								From our farm to your table, we ensure natural, fresh, and
-								high-quality dairy products.
+								<span data-i18n="phil_card2_desc">From our farm to your table, we ensure natural, fresh, and </span>
+								
 							</p>
 						</div>
 						<div class="feature-card animate-stagger">
 							<div class="feature-icon"><i class="fa-solid fa-users"></i></div>
-							<h3>From Farm to Family</h3>
+							<h3 data-i18n="phil_card3_title">From Farm to Family</h3>
 							<p>
-								Nutritious food that brings families closer, today and for
-								generations to come.
+								<span data-i18n="phil_card3_desc">Nutritious food that brings families closer, today and for </span>
+								
 							</p>
 						</div>
 					</div>
@@ -206,41 +213,41 @@
 			</section>
 
 			<!-- Products Section -->
-			<section class="products section-padding bg-white">
+			<section class="products section-padding bg-white" id="products">
 				<div class="container">
 					<div class="products-grid">
 						<div class="products-content">
 							<div class="subheading animate-fade-up">
-								<span class="line"></span> OUR PRODUCTS
+								<span class="line"></span> <span data-i18n="prod_sub">OUR PRODUCTS</span>
 							</div>
 							<h2 class="animate-text">
-								Natural Nutrition<br />for a Better You
+								<span data-i18n="prod_title">Natural Nutrition<br />for a Better You</span>
 							</h2>
 							<p class="animate-fade-up">
-								Delicious and nutritious goat milk and yogurt made with care at
-								Rida Farm Bali. Pure, natural, and full of goodness for your
-								family's daily health.
+								<span data-i18n="prod_desc">Delicious and nutritious goat milk and yogurt made with care at  </span>
+								
+								
 							</p>
 							<div class="animate-fade-up mt-4">
 								<a href="#" class="btn btn-primary magnetic"
-									>View All Products
+									><span data-i18n="prod_btn">View All Products</span>
 									<i class="fa-solid fa-arrow-right icon-right"></i
 								></a>
 							</div>
 							<div class="product-features animate-fade-up">
 								<div class="p-feature">
 									<div class="p-icon"><i class="fa-solid fa-leaf"></i></div>
-									<span>100% Natural</span>
+									<span data-i18n="prod_feat1">100% Natural</span>
 								</div>
 								<div class="p-feature">
 									<div class="p-icon">
 										<i class="fa-solid fa-shield-halved"></i>
 									</div>
-									<span>Healthy Choice</span>
+									<span data-i18n="prod_feat2">Healthy Choice</span>
 								</div>
 								<div class="p-feature">
 									<div class="p-icon"><i class="fa-solid fa-users"></i></div>
-									<span>For the Whole Family</span>
+									<span data-i18n="prod_feat3">For the Whole Family</span>
 								</div>
 							</div>
 						</div>
@@ -251,7 +258,7 @@
 									alt="Products"
 									class="parallax-img"
 								/>
-								<div class="handwritten products-handwritten animate-scale">
+								<div class="handwritten products-handwritten animate-scale" data-i18n="prod_handwritten">
 									Rasa Alami<br />untuk Hari yang<br />Lebih Baik
 									<i class="fa-regular fa-heart"></i>
 								</div>
@@ -262,17 +269,17 @@
 			</section>
 
 			<!-- News Section -->
-			<section class="news section-padding">
+			<section class="news section-padding" id="news">
 				<div class="container">
 					<div class="news-header">
 						<div class="news-header-left">
 							<div class="subheading animate-fade-up">
-								<span class="line"></span> NEWS & STORIES
+								<span class="line"></span> <span data-i18n="news_sub">NEWS & STORIES</span>
 							</div>
-							<h2 class="animate-text">Latest from the Farm</h2>
+							<h2 class="animate-text" data-i18n="news_title">Latest from the Farm</h2>
 							<p class="animate-fade-up">
-								Stories, updates, and inspiration from our journey at Rida Farm
-								Bali.
+								<span data-i18n="news_desc">Stories, updates, and inspiration from our journey at Rida Farm </span>
+								
 							</p>
 						</div>
 						<div class="news-header-right animate-fade-up" style="display: flex; gap: 10px;">
@@ -297,9 +304,9 @@
 							</div>
 							<div class="news-content">
 								<span class="news-date">May 15, 2024</span>
-								<h3 class="news-title">Happy Goats, Healthier Lives</h3>
+								<h3 class="news-title" data-i18n="news_card1_title">Happy Goats, Healthier Lives</h3>
 								<p class="news-excerpt">
-									A closer look at how we care for our goats every day.
+									<span data-i18n="news_card1_desc">A closer look at how we care for our goats every day.</span>
 								</p>
 							</div>
 						</a>
@@ -313,10 +320,10 @@
 							<div class="news-content">
 								<span class="news-date">Apr 20, 2024</span>
 								<h3 class="news-title">
-									People, Goats, and a Brighter Tomorrow
+									<span data-i18n="news_card2_title">People, Goats, and a Brighter Tomorrow</span>
 								</h3>
 								<p class="news-excerpt">
-									Meet the hands behind Rida Farm Bali.
+									Meet the hands behind Rida Farm 
 								</p>
 							</div>
 						</a>
@@ -329,9 +336,9 @@
 							</div>
 							<div class="news-content">
 								<span class="news-date">Apr 15, 2024</span>
-								<h3 class="news-title">The Goodness of Goat Milk</h3>
+								<h3 class="news-title" data-i18n="news_card3_title">The Goodness of Goat Milk</h3>
 								<p class="news-excerpt">
-									Why goat milk is a natural choice for your family.
+									<span data-i18n="news_card3_desc">Why goat milk is a natural choice for your family.</span>
 								</p>
 							</div>
 						</a>
@@ -345,9 +352,9 @@
 							</div>
 							<div class="news-content">
 								<span class="news-date">Mar 10, 2024</span>
-								<h3 class="news-title">From Farm to Table</h3>
+								<h3 class="news-title" data-i18n="news_card4_title">From Farm to Table</h3>
 								<p class="news-excerpt">
-									How our products reach you fresh everyday.
+									<span data-i18n="news_card4_desc">How our products reach you fresh everyday.</span>
 								</p>
 							</div>
 						</a>
@@ -361,14 +368,14 @@
 			<div class="container banner-inner">
 				<div class="banner-left">
 					<i class="fa-solid fa-chart-line text-green"></i>
-					<span class="banner-title">Welcoming Investors</span>
+					<span class="banner-title" data-i18n="banner_title">Welcoming Investors</span>
 				</div>
 				<div class="banner-center">
-					Invest now and grow with ridafarmbali — get more value later.
+					<span data-i18n="banner_desc">Invest now and grow with ridafarmbali — get more value later.</span>
 				</div>
 				<div class="banner-right">
 					<a href="#" class="btn btn-primary btn-sm magnetic">
-						<i class="fa-solid fa-chart-line"></i> Invest Now
+						<i class="fa-solid fa-chart-line"></i> <span data-i18n="banner_btn">Invest Now</span>
 						<i class="fa-solid fa-arrow-right icon-right"></i>
 					</a>
 					<button class="banner-close">
