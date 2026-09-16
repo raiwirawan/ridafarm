@@ -390,18 +390,6 @@ main {
 	width: 100%;
 }
 
-.search-btn {
-	background: none;
-	border: none;
-	font-size: 1.2rem;
-	color: var(--text-dark);
-	cursor: pointer;
-	transition: color var(--transition-fast);
-}
-
-.search-btn:hover {
-	color: var(--primary);
-}
 
 /* Hero Section */
 .hero {
@@ -1090,6 +1078,7 @@ body.menu-open {
 	.menu-btn {
 		display: block;
 	}
+
 
 	.nav-links {
 		position: fixed;
