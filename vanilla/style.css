@@ -348,6 +348,7 @@ main {
 
 .lang-btn {
 	background: none;
+	text-decoration: none;
 	border: none;
 	font-family: var(--font-body);
 	font-weight: 500;
@@ -645,6 +646,10 @@ main {
 	flex: 0 0 calc(33.333% - 1.33rem);
 	scroll-snap-align: start;
 	min-width: 280px;
+}
+
+.feature-card h3 {
+	margin-bottom: 1rem;
 }
 
 .feature-icon {
