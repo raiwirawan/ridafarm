@@ -636,6 +636,7 @@ main {
 .philosophy-grid {
 	display: flex;
 	overflow-x: auto;
+	overflow-y: hidden;
 	scroll-snap-type: x mandatory;
 	gap: 2rem;
 	margin-top: 4rem;
@@ -783,6 +784,7 @@ main {
 .news-grid {
 	display: flex;
 	overflow-x: auto;
+	overflow-y: hidden;
 	scroll-snap-type: x mandatory;
 	gap: 2rem;
 	padding-bottom: 2rem;
