@@ -1080,6 +1080,7 @@ body.menu-open {
 		top: 0;
 		right: -100%;
 		width: 100%;
+		margin: 0; /* Reset desktop margins */
 		height: 100vh;
 		background-color: var(--bg-main);
 		flex-direction: column;
@@ -1122,8 +1123,47 @@ body.menu-open {
 
 }
 
+
+/* Philosophy Dots Styles */
+.philosophy-slider-wrap {
+	position: relative;
+	width: 100%;
+}
+
+.philosophy-dots {
+	display: none;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 2rem;
+}
+
+.philosophy-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: #cbd5e1;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.philosophy-dot.active {
+	background-color: var(--primary);
+}
+
+
 /* MOBILE - Max 768px */
 @media (max-width: 768px) {
+
+	.philosophy-dots {
+		display: flex;
+	}
+
+	.philosophy-grid .feature-card {
+		flex: 0 0 100%;
+		min-width: unset;
+		scroll-snap-align: center;
+	}
+
 	.feature-card, .news-card {
 		flex: 0 0 calc(85% - 1rem);
 	}

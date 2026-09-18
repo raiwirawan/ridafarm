@@ -36,7 +36,8 @@ class Rida_Widget_Philosophy extends \Elementor\Widget_Base {
             <div class="container text-center">
                 <p class="subheading justify-center animate-fade-up"><span class="line"></span> <span><?php echo esc_html($settings['subheading']); ?></span> <span class="line"></span></p>
                 <h2 class="animate-text section-title" id="philosophy-heading"><span><?php echo esc_html($settings['title']); ?></span></h2>
-                <div class="philosophy-grid">
+                <div class="philosophy-slider-wrap">
+                    <div class="philosophy-grid" id="philosophySlider">
                     <?php foreach ( $settings['cards'] as $card ) : ?>
                     <div class="feature-card animate-stagger">
                         <div class="feature-icon"><i class="<?php echo esc_attr($card['icon_class']); ?>" aria-hidden="true"></i></div>
@@ -44,6 +45,8 @@ class Rida_Widget_Philosophy extends \Elementor\Widget_Base {
                         <p><span><?php echo wp_kses_post($card['card_desc']); ?></span></p>
                     </div>
                     <?php endforeach; ?>
+                    </div>
+                    <div class="philosophy-dots" id="philosophyDots"></div>
                 </div>
             </div>
         </section>

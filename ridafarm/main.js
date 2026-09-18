@@ -44,12 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Page Loader (visual only, doesn't block content) ---
     const loader = document.querySelector('.loader');
-    window.addEventListener('load', () => {
+    const hideLoader = () => {
         setTimeout(() => {
-            loader.classList.add('hidden');
+            if(loader) loader.classList.add('hidden');
             document.body.classList.remove('loading');
         }, 1000);
-    });
+    };
+
+    if (document.readyState === 'complete') {
+        hideLoader();
+    } else {
+        window.addEventListener('load', hideLoader);
+    }
 
     // --- Custom Cursor ---
     const cursorDot = document.querySelector('.cursor-dot');
@@ -279,7 +285,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     
+
+
+    // --- Philosophy Slider Logic ---
+    const philSlider = document.getElementById('philosophySlider');
+    const philDotsContainer = document.getElementById('philosophyDots');
+
+    if (philSlider && philDotsContainer) {
+        const philCards = philSlider.querySelectorAll('.feature-card');
+        
+        philCards.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('philosophy-dot');
+            if (index === 0) dot.classList.add('active');
+            
+            dot.addEventListener('click', () => {
+                const scrollTarget = philSlider.clientWidth * index;
+                philSlider.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+                resetPhilInterval();
+            });
+            philDotsContainer.appendChild(dot);
+        });
+
+        const philDots = philDotsContainer.querySelectorAll('.philosophy-dot');
+        let currentPhilIndex = 0;
+        let philAutoPlay;
+
+        philSlider.addEventListener('scroll', () => {
+            const index = Math.round(philSlider.scrollLeft / philSlider.clientWidth);
+            if (index !== currentPhilIndex && index >= 0 && index < philCards.length) {
+                if(philDots[currentPhilIndex]) philDots[currentPhilIndex].classList.remove('active');
+                currentPhilIndex = index;
+                if(philDots[currentPhilIndex]) philDots[currentPhilIndex].classList.add('active');
+            }
+        });
+
+        const nextPhilSlide = () => {
+            if (window.getComputedStyle(philDotsContainer).display !== 'none') {
+                let nextIndex = currentPhilIndex + 1;
+                if (nextIndex >= philCards.length) {
+                    nextIndex = 0;
+                }
+                philSlider.scrollTo({ left: philSlider.clientWidth * nextIndex, behavior: 'smooth' });
+            }
+        };
+
+        const resetPhilInterval = () => {
+            clearInterval(philAutoPlay);
+            philAutoPlay = setInterval(nextPhilSlide, 3000);
+        };
+
+        resetPhilInterval();
+
+        philSlider.addEventListener('touchstart', () => clearInterval(philAutoPlay), {passive: true});
+        philSlider.addEventListener('touchend', resetPhilInterval, {passive: true});
+        philSlider.addEventListener('mouseenter', () => clearInterval(philAutoPlay));
+        philSlider.addEventListener('mouseleave', resetPhilInterval);
+    }
 
 });
