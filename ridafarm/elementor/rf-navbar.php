@@ -65,6 +65,9 @@ class Rida_Widget_Navbar extends \Elementor\Widget_Base {
                     [ 'link_text' => 'About Us', 'link_url' => [ 'url' => '#about' ] ],
                     [ 'link_text' => 'Our Products', 'link_url' => [ 'url' => '#products' ] ],
                     [ 'link_text' => 'News', 'link_url' => [ 'url' => '#news' ] ],
+                    [ 'link_text' => 'Contact', 'link_url' => [ 'url' => '#' ] ],
+                    [ 'link_text' => 'Farm Tour', 'link_url' => [ 'url' => '#' ] ],
+                    [ 'link_text' => 'Investment', 'link_url' => [ 'url' => '#' ] ],
                 ],
             ]
         );
@@ -106,15 +109,19 @@ class Rida_Widget_Navbar extends \Elementor\Widget_Base {
                     // Polylang Language Switcher Integration
                     if ( function_exists('pll_the_languages') ) {
                         $langs = pll_the_languages(array('raw' => 1));
-                        $output = [];
-                        foreach ($langs as $lang) {
-                            if ($lang['current_lang']) {
-                                $output[] = '<span class="lang-btn active">' . esc_html(strtoupper($lang['slug'])) . '</span>';
-                            } else {
-                                $output[] = '<a href="' . esc_url($lang['url']) . '" class="lang-btn" aria-label="Switch to ' . esc_attr($lang['name']) . '">' . esc_html(strtoupper($lang['slug'])) . '</a>';
+                        if (!empty($langs)) {
+                            $output = [];
+                            foreach ($langs as $lang) {
+                                if ($lang['current_lang']) {
+                                    $output[] = '<span class="lang-btn active">' . esc_html(strtoupper($lang['slug'])) . '</span>';
+                                } else {
+                                    $output[] = '<a href="' . esc_url($lang['url']) . '" class="lang-btn" aria-label="Switch to ' . esc_attr($lang['name']) . '">' . esc_html(strtoupper($lang['slug'])) . '</a>';
+                                }
                             }
+                            echo implode('<span class="lang-sep">|</span>', $output);
+                        } else {
+                            echo '<span class="lang-btn active">EN</span><span class="lang-sep">|</span><a href="#" class="lang-btn">ID</a>';
                         }
-                        echo implode('<span class="lang-sep">|</span>', $output);
                     } else {
                         // Fallback if Polylang is not installed
                         echo '<span class="lang-btn active">EN</span><span class="lang-sep">|</span><a href="#" class="lang-btn">ID</a>';

@@ -319,13 +319,12 @@ main {
 	color: var(--primary);
 }
 
-.logo-img {
-	height: 60px;
-	width: 60px;
-	border-radius: 50%;
-	object-fit: cover; /* Ensures the image fills the circle without stretching */
-	overflow: hidden;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Optional: slight shadow to make it pop */
+.logo-img, .navbar .logo-img {
+	height: 60px !important;
+	width: 60px !important;
+	border-radius: 50% !important;
+	object-fit: cover !important;
+	overflow: hidden !important;
 }
 
 .logo-text {
