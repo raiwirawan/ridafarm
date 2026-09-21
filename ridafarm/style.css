@@ -208,7 +208,19 @@ p {
 .container {
 	max-width: 1400px;
 	margin: 0 auto;
-	padding: 0 5%;
+	padding: 0 60px;
+}
+
+@media (max-width: 1024px) {
+	.container {
+		padding: 0 40px;
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		padding: 0 24px;
+	}
 }
 
 .section-padding {
@@ -1178,28 +1190,38 @@ body.menu-open {
 	}
 
 	/* Hero adjustments for mobile */
+	.hero-overlay {
+		background: linear-gradient(
+			to top,
+			rgba(0, 0, 0, 0.8) 0%,
+			rgba(0, 0, 0, 0.4) 50%,
+			rgba(0, 0, 0, 0.05) 100%
+		);
+	}
+
 	.hero-title {
-		font-size: 2rem;
+		font-size: 2.2rem;
 	}
 	
 	.hero-desc {
 		font-size: 1rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.hero-content {
 		width: 90%;
-		bottom: 8%;
+		bottom: 15%; /* increased to prevent overlapping with fixed investor banner */
 	}
 
 	.hero-play {
-		top: 10%;
+		top: 15%;
 		right: 5%;
 		bottom: auto;
 		transform: none;
 	}
 
 	.hero-handwritten {
-		top: 22%;
+		top: 25%;
 		right: 5%;
 		bottom: auto;
 		font-size: 1.2rem;

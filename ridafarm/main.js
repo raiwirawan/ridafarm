@@ -1,7 +1,7 @@
 // Mark HTML element immediately so CSS animations are enabled
 document.documentElement.classList.add('js');
 
-document.addEventListener('DOMContentLoaded', () => {
+function initRidaFarm() {
 
     // --- Intersection Observer for Entry Animations ---
     // Called IMMEDIATELY on DOMContentLoaded — no delay, no dependency on loader
@@ -63,21 +63,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let mouseX = 0, mouseY = 0;
     let outlineX = 0, outlineY = 0;
 
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        cursorDot.style.left = `${mouseX}px`;
-        cursorDot.style.top = `${mouseY}px`;
-    });
+    if (!cursorDot || !cursorOutline) {
+        document.body.style.cursor = 'auto';
+    } else {
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        });
 
-    function animateCursor() {
-        outlineX += (mouseX - outlineX) * 0.15;
-        outlineY += (mouseY - outlineY) * 0.15;
-        cursorOutline.style.left = `${outlineX}px`;
-        cursorOutline.style.top = `${outlineY}px`;
-        requestAnimationFrame(animateCursor);
+        function animateCursor() {
+            outlineX += (mouseX - outlineX) * 0.15;
+            outlineY += (mouseY - outlineY) * 0.15;
+            cursorOutline.style.left = `${outlineX}px`;
+            cursorOutline.style.top = `${outlineY}px`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
     }
-    animateCursor();
 
     // Hover effect on interactive elements
     const interactives = document.querySelectorAll('a, button, .magnetic');
@@ -102,7 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Navbar scrolled state
-        navbar.classList.toggle('scrolled', scrollY > 50);
+        if (navbar) {
+            navbar.classList.toggle('scrolled', scrollY > 50);
+        }
     });
 
     // --- Magnetic Buttons ---
@@ -122,16 +128,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const banner = document.querySelector('.investor-banner');
     const closeBanner = document.querySelector('.banner-close');
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500 && !banner.classList.contains('closed')) {
-            banner.classList.add('show');
-        }
-    });
+    if (banner && closeBanner) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500 && !banner.classList.contains('closed')) {
+                banner.classList.add('show');
+            }
+        });
 
-    closeBanner.addEventListener('click', () => {
-        banner.classList.remove('show');
-        banner.classList.add('closed');
-    });
+        closeBanner.addEventListener('click', () => {
+            banner.classList.remove('show');
+            banner.classList.add('closed');
+        });
+    }
 
     // --- Mobile Menu Toggle ---
     const menuBtn = document.querySelector('.menu-btn');
@@ -343,5 +351,10 @@ document.addEventListener('DOMContentLoaded', () => {
         philSlider.addEventListener('mouseenter', () => clearInterval(philAutoPlay));
         philSlider.addEventListener('mouseleave', resetPhilInterval);
     }
+}
 
-});
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRidaFarm);
+} else {
+    initRidaFarm();
+}
