@@ -12,24 +12,23 @@ class Rida_Widget_News extends \Elementor\Widget_Base {
         $this->add_control('title', ['label' => __( 'Title (H2)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Latest from the Farm']);
         $this->add_control('desc', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'Stories, updates, and inspiration from our journey at Rida Farm Bali.']);
         
-        $repeater = new \Elementor\Repeater();
-        $repeater->add_control('image', ['label' => __( 'Image', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::MEDIA]);
-        $repeater->add_control('date', ['label' => __( 'Date', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
-        $repeater->add_control('title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
-        $repeater->add_control('excerpt', ['label' => __( 'Excerpt', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA]);
-        $repeater->add_control('url', ['label' => __( 'URL', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::URL]);
-        
-        $this->add_control('cards', ['label' => __( 'News Cards', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::REPEATER, 'fields' => $repeater->get_controls(), 'default' => [
-            ['date' => 'May 15, 2024', 'title' => 'Happy Goats, Healthier Lives', 'excerpt' => 'A closer look at how we care for our goats every day.', 'url' => ['url' => '#'], 'image' => ['url' => 'https://images.unsplash.com/photo-1499115421298-dc3b4fe66c58?auto=format&fit=crop&q=80&w=600']],
-            ['date' => 'Apr 20, 2024', 'title' => 'People, Goats, and a Brighter Tomorrow', 'excerpt' => 'Meet the hands behind Rida Farm Bali.', 'url' => ['url' => '#'], 'image' => ['url' => 'https://images.unsplash.com/photo-1596426924463-983524bf0085?auto=format&fit=crop&q=80&w=600']],
-            ['date' => 'Apr 15, 2024', 'title' => 'The Goodness of Goat Milk', 'excerpt' => 'Why goat milk is a natural choice for your family.', 'url' => ['url' => '#'], 'image' => ['url' => 'https://images.unsplash.com/photo-1523473827533-2a64d0d36748?auto=format&fit=crop&q=80&w=600']],
-            ['date' => 'Mar 10, 2024', 'title' => 'From Farm to Table', 'excerpt' => 'How our products reach you fresh everyday.', 'url' => ['url' => '#'], 'image' => ['url' => 'https://images.unsplash.com/photo-1517448931760-9bf4414148c5?auto=format&fit=crop&q=80&w=600']],
-        ]]);
+        $this->add_control('posts_per_page', [
+            'label' => __( 'Number of Posts', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::NUMBER,
+            'default' => 6,
+        ]);
         $this->end_controls_section();
     }
 
     protected function render() {
         $settings = $this->get_settings_for_display();
+        
+        $args = [
+            'post_type' => 'post',
+            'post_status' => 'publish',
+            'posts_per_page' => $settings['posts_per_page'],
+        ];
+        $news_query = new \WP_Query($args);
         ?>
         <section class="news section-padding" id="news" aria-labelledby="news-heading">
             <div class="container">
@@ -51,18 +50,31 @@ class Rida_Widget_News extends \Elementor\Widget_Base {
             </div>
             <div class="news-slider-wrap">
                 <div class="news-grid" id="newsSlider">
-                    <?php foreach($settings['cards'] as $card): ?>
-                    <a href="<?php echo esc_url($card['url']['url']); ?>" class="news-card animate-stagger">
+                    <?php 
+                    if ($news_query->have_posts()) :
+                        while ($news_query->have_posts()) : $news_query->the_post(); 
+                    ?>
+                    <a href="<?php the_permalink(); ?>" class="news-card animate-stagger">
                         <div class="news-img-wrap">
-                            <img src="<?php echo esc_url($card['image']['url']); ?>" alt="News Image" loading="lazy" />
+                            <?php if (has_post_thumbnail()) : ?>
+                                <?php the_post_thumbnail('medium_large', ['alt' => esc_attr(get_the_title()), 'loading' => 'lazy']); ?>
+                            <?php else : ?>
+                                <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/ridafarm-logo.jpg'); ?>" alt="News Image" loading="lazy" />
+                            <?php endif; ?>
                         </div>
                         <div class="news-content">
-                            <span class="news-date"><?php echo esc_html($card['date']); ?></span>
-                            <h3 class="news-title"><span><?php echo esc_html($card['title']); ?></span></h3>
-                            <p class="news-excerpt"><span><?php echo wp_kses_post($card['excerpt']); ?></span></p>
+                            <span class="news-date"><?php echo get_the_date(); ?></span>
+                            <h3 class="news-title"><span><?php the_title(); ?></span></h3>
+                            <p class="news-excerpt"><span><?php echo wp_trim_words(get_the_excerpt(), 15); ?></span></p>
                         </div>
                     </a>
-                    <?php endforeach; ?>
+                    <?php 
+                        endwhile;
+                        wp_reset_postdata();
+                    else : 
+                    ?>
+                        <p style="padding-left: 20px;"><?php esc_html_e('No news found.', 'ridafarm'); ?></p>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
