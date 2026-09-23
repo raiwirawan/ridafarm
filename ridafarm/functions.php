@@ -18,6 +18,8 @@ function ridafarm_register_widgets($widgets_manager) {
     require_once get_template_directory() . '/elementor/rf-philosophy.php';
     require_once get_template_directory() . '/elementor/rf-products.php';
     require_once get_template_directory() . '/elementor/rf-news.php';
+    require_once get_template_directory() . '/elementor/rf-news-archive.php';
+    require_once get_template_directory() . '/elementor/rf-single-news.php';
     require_once get_template_directory() . '/elementor/rf-investor-banner.php';
 
     $widgets_manager->register(new \Rida_Widget_Navbar());
@@ -26,6 +28,8 @@ function ridafarm_register_widgets($widgets_manager) {
     $widgets_manager->register(new \Rida_Widget_Philosophy());
     $widgets_manager->register(new \Rida_Widget_Products());
     $widgets_manager->register(new \Rida_Widget_News());
+    $widgets_manager->register(new \Rida_Widget_News_Archive());
+    $widgets_manager->register(new \Rida_Widget_Single_News());
     $widgets_manager->register(new \Rida_Widget_InvestorBanner());
 }
 add_action('elementor/widgets/register', 'ridafarm_register_widgets');
