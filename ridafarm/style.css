@@ -208,7 +208,7 @@ p {
 .container {
 	max-width: 1400px;
 	margin: 0 auto;
-	padding: 0;
+	padding: 0 40px;
 }
 
 @media (max-width: 1024px) {
@@ -331,7 +331,8 @@ main {
 	color: var(--primary);
 }
 
-.logo-img, .navbar .logo-img {
+.logo-img,
+.navbar .logo-img {
 	height: 60px !important;
 	width: 60px !important;
 	border-radius: 50% !important;
@@ -361,7 +362,7 @@ main {
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	
+
 	margin-right: 20px;
 }
 
@@ -420,7 +421,6 @@ main {
 .nav-link.active::after {
 	width: 100%;
 }
-
 
 /* Hero Section */
 .hero {
@@ -780,7 +780,11 @@ img.hero-bg-img {
 	height: 48px;
 	border-radius: 50%;
 	justify-content: center;
-	transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+	transition:
+		opacity 0.3s ease,
+		transform 0.3s ease,
+		background-color 0.3s ease,
+		color 0.3s ease;
 }
 .slider-btn:disabled {
 	opacity: 0 !important;
@@ -861,7 +865,6 @@ img.hero-bg-img {
 .news-card:hover .news-title {
 	color: var(--accent);
 }
-
 
 /* Investor Banner */
 .investor-banner {
@@ -1014,13 +1017,12 @@ h3.animate-text.in-view {
 	gap: 1.5rem;
 }
 
+.lang-switcher {
+	margin-left: auto;
+	margin-right: 1rem;
+}
 
-	.lang-switcher {
-		margin-left: auto;
-		margin-right: 1rem;
-	}
-
-	.menu-btn {
+.menu-btn {
 	display: none;
 	background: none;
 	border: none;
@@ -1039,7 +1041,10 @@ h3.animate-text.in-view {
 	width: 24px;
 	height: 2px;
 	background-color: var(--text-dark);
-	transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+	transition:
+		transform 0.3s ease,
+		opacity 0.3s ease,
+		background-color 0.3s ease;
 	position: absolute;
 }
 
@@ -1049,12 +1054,12 @@ h3.animate-text.in-view {
 }
 
 .hamburger::before {
-	content: '';
+	content: "";
 	top: -8px;
 }
 
 .hamburger::after {
-	content: '';
+	content: "";
 	bottom: -8px;
 }
 
@@ -1073,7 +1078,6 @@ body.menu-open {
 	overflow: hidden;
 }
 
-
 /* === Media Queries for responsiveness === */
 
 /* TABLET ("The Forgotten Breakpoint") - Max 1024px */
@@ -1082,10 +1086,13 @@ body.menu-open {
 	body {
 		cursor: auto;
 	}
-	.cursor-dot, .cursor-outline {
+	.cursor-dot,
+	.cursor-outline {
 		display: none !important;
 	}
-	a, button, .magnetic {
+	a,
+	button,
+	.magnetic {
 		cursor: pointer !important;
 	}
 
@@ -1093,7 +1100,6 @@ body.menu-open {
 	.menu-btn {
 		display: block;
 	}
-
 
 	.nav-links {
 		position: fixed;
@@ -1126,11 +1132,13 @@ body.menu-open {
 		gap: 3rem;
 	}
 
-	.about-visual, .products-visual {
+	.about-visual,
+	.products-visual {
 		height: 400px; /* shorter on tablet */
 	}
 
-	.feature-card, .news-card {
+	.feature-card,
+	.news-card {
 		flex: 0 0 calc(50% - 1rem);
 	}
 
@@ -1139,10 +1147,7 @@ body.menu-open {
 		gap: 15px;
 		text-align: center;
 	}
-
-
 }
-
 
 /* Philosophy Dots Styles */
 .philosophy-slider-wrap {
@@ -1170,10 +1175,8 @@ body.menu-open {
 	background-color: var(--primary);
 }
 
-
 /* MOBILE - Max 768px */
 @media (max-width: 768px) {
-
 	.philosophy-dots {
 		display: flex;
 	}
@@ -1184,7 +1187,8 @@ body.menu-open {
 		scroll-snap-align: center;
 	}
 
-	.feature-card, .news-card {
+	.feature-card,
+	.news-card {
 		flex: 0 0 calc(85% - 1rem);
 	}
 
@@ -1201,7 +1205,7 @@ body.menu-open {
 	.hero-title {
 		font-size: 2.2rem;
 	}
-	
+
 	.hero-desc {
 		font-size: 1rem;
 		margin-bottom: 1.5rem;
