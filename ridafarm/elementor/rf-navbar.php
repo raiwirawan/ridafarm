@@ -114,8 +114,15 @@ class Rida_Widget_Navbar extends \Elementor\Widget_Base {
                             $url = !empty($item['link_url']['url']) ? $item['link_url']['url'] : '#';
                             $target = !empty($item['link_url']['is_external']) ? ' target="_blank"' : '';
                             $nofollow = !empty($item['link_url']['nofollow']) ? ' rel="nofollow"' : '';
-                            // Make first item active by default for styling
-                            $active_class = ($index === 0) ? ' active' : '';
+                            // Make current item active based on URL path
+                            global $wp;
+                            $current_path = trim( (string) parse_url( home_url( $wp->request ), PHP_URL_PATH ), '/' );
+                            $link_path    = trim( (string) parse_url( $url, PHP_URL_PATH ), '/' );
+                            
+                            // Prevent anchor links from being active on load unless it's the only match
+                            $is_anchor = ( strpos( $url, '#' ) === 0 || ( strpos( $url, '/#' ) !== false && $current_path === '' ) );
+                            $active_class = ( !$is_anchor && $current_path === $link_path && $url !== '#' ) ? ' active' : '';
+
                         ?>
                             <a href="<?php echo esc_url($url); ?>" class="nav-link<?php echo $active_class; ?>" <?php echo $target . $nofollow; ?>>
                                 <?php echo esc_html($item['link_text']); ?>

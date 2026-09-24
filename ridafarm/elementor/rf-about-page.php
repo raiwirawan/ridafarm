@@ -7,39 +7,78 @@ class Rida_Widget_About_Page extends \Elementor\Widget_Base {
     public function get_categories() { return [ 'general' ]; }
 
     protected function register_controls() {
-        // Hero Section
-        $this->start_controls_section('hero_section', ['label' => __( 'Hero Section', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
-        $this->add_control('hero_subheading', ['label' => __( 'Subheading', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'OUR STORY']);
-        $this->add_control('hero_title', ['label' => __( 'Title (H1)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Rooted in Nature, Grown with Love']);
-        $this->add_control('hero_desc', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'Discover the journey of Rida Farm Bali, where our passion for healthy living meets traditional, sustainable farming practices.']);
-        $this->add_control('hero_image', ['label' => __( 'Hero Image', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::MEDIA, 'default' => ['url' => 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&q=80&w=1200']]);
+        // 1. Founder Section
+        $this->start_controls_section('founder_sec', ['label' => __( 'Our Founder', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
+        $this->add_control('founder_image', ['label' => __( 'Founder Image', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::MEDIA]);
+        $this->add_control('founder_script', ['label' => __( 'Image Script Text', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => "[Nama Pemilik]<br>Pendiri Rida Farm Bali"]);
+        $this->add_control('founder_eyebrow', ['label' => __( 'Eyebrow', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Sang Pemilik']);
+        $this->add_control('founder_title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Halo, Saya [Nama Pemilik]']);
+        $this->add_control('founder_desc', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::WYSIWYG, 'default' => '<p>Rida Farm Bali lahir dari kecintaan saya pada makanan yang jujur dan alami. Sejak [tahun], saya memulai peternakan ini di [lokasi], Bali, dengan beberapa ekor kambing dan satu tujuan: menghadirkan susu dan yoghurt kambing yang bermanfaat bagi keluarga.</p><p>Bagi saya, kambing yang bahagia dan sehat adalah awal dari semua produk yang baik. Karena itu setiap hari kami merawat mereka dengan penuh perhatian, dari pakan hingga kebersihan kandang.</p>']);
+        $this->add_control('founder_quote', ['label' => __( 'Quote', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => '“Makanan yang baik mendekatkan orang pada hari esok yang lebih cerah.”']);
         $this->end_controls_section();
 
-        // Mission & Vision
-        $this->start_controls_section('mission_section', ['label' => __( 'Mission & Vision', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
-        $this->add_control('mission_title', ['label' => __( 'Mission Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Our Mission']);
-        $this->add_control('mission_desc', ['label' => __( 'Mission Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'To provide families with the purest, most nutritious goat milk products while maintaining the highest standards of animal welfare and environmental sustainability.']);
-        $this->add_control('mission_quote', ['label' => __( 'Mission Quote (Handwritten)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => '"Pure goodness from our farm to your family."']);
-        $this->add_control('vision_title', ['label' => __( 'Vision Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Our Vision']);
-        $this->add_control('vision_desc', ['label' => __( 'Vision Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'We envision a future where natural, farm-fresh nutrition is accessible to everyone, inspiring healthier lifestyles and a deeper connection to nature across Bali and beyond.']);
-        $this->add_control('mission_image', ['label' => __( 'Side Image (Optional)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::MEDIA, 'default' => ['url' => '']]);
-        $this->end_controls_section();
-
-        // Core Values
-        $this->start_controls_section('values_section', ['label' => __( 'Core Values', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
-        $this->add_control('values_subheading', ['label' => __( 'Subheading', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'OUR PILLARS']);
-        $this->add_control('values_title', ['label' => __( 'Title (H2)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'What We Stand For']);
+        // 2. Journey Section
+        $this->start_controls_section('journey_sec', ['label' => __( 'Our Journey', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
+        $this->add_control('journey_eyebrow', ['label' => __( 'Eyebrow', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Perjalanan Kami']);
+        $this->add_control('journey_title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Dari Kandang Kecil ke Meja Keluarga']);
         
-        $repeater = new \Elementor\Repeater();
-        $repeater->add_control('icon', ['label' => __( 'Icon', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::ICONS, 'default' => ['value' => 'fa-solid fa-leaf', 'library' => 'solid']]);
-        $repeater->add_control('title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
-        $repeater->add_control('desc', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA]);
-        
-        $this->add_control('values_list', ['label' => __( 'Values', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::REPEATER, 'fields' => $repeater->get_controls(), 'default' => [
-            ['title' => 'Sustainability', 'desc' => 'We farm in harmony with nature, ensuring our land remains fertile for generations.', 'icon' => ['value' => 'fa-solid fa-seedling', 'library' => 'solid']],
-            ['title' => 'Animal Welfare', 'desc' => 'Happy goats give the best milk. They roam free and eat the freshest grass.', 'icon' => ['value' => 'fa-solid fa-heart', 'library' => 'solid']],
-            ['title' => 'Purity', 'desc' => 'No additives, no preservatives. Just 100% pure, natural goodness.', 'icon' => ['value' => 'fa-solid fa-droplet', 'library' => 'solid']],
+        $repeater_tl = new \Elementor\Repeater();
+        $repeater_tl->add_control('year', ['label' => __( 'Year', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
+        $repeater_tl->add_control('text', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA]);
+        $this->add_control('journey_list', ['label' => __( 'Timeline', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::REPEATER, 'fields' => $repeater_tl->get_controls(), 'default' => [
+            ['year' => '[Tahun]', 'text' => 'Memulai peternakan dengan [jumlah] ekor kambing di [lokasi].'],
+            ['year' => '[Tahun]', 'text' => 'Meluncurkan susu kambing segar dan yoghurt Rida Farm.'],
+            ['year' => '[Tahun]', 'text' => 'Membuka Farm Tour agar keluarga bisa melihat langsung proses kami.'],
+            ['year' => '2026', 'text' => 'Membuka peluang investasi untuk tumbuh bersama mitra.'],
         ]]);
+
+        $repeater_st = new \Elementor\Repeater();
+        $repeater_st->add_control('num', ['label' => __( 'Number', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
+        $repeater_st->add_control('label', ['label' => __( 'Label', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
+        $this->add_control('stats_list', ['label' => __( 'Stats', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::REPEATER, 'fields' => $repeater_st->get_controls(), 'default' => [
+            ['num' => '[00]+', 'label' => 'Ekor kambing'],
+            ['num' => '100%', 'label' => 'Alami'],
+            ['num' => '[00]+', 'label' => 'Keluarga terlayani'],
+            ['num' => '[0]', 'label' => 'Tahun berdiri'],
+        ]]);
+        $this->end_controls_section();
+
+        // 3. Business Section
+        $this->start_controls_section('business_sec', ['label' => __( 'Our Business', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
+        $this->add_control('business_eyebrow', ['label' => __( 'Eyebrow', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Usaha Kami']);
+        $this->add_control('business_title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Peternakan, Produk, dan Pengalaman']);
+        $this->add_control('business_desc', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::WYSIWYG, 'default' => '<p>Rida Farm Bali adalah peternakan kambing yang menghasilkan susu kambing segar dan yoghurt alami. Selain produk, kami membuka pintu bagi keluarga lewat Farm Tour, dan bagi mitra yang ingin tumbuh bersama lewat program Investasi.</p>']);
+        $this->add_control('business_btn_label', ['label' => __( 'Button Label', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Lihat Semua Produk']);
+        $this->add_control('business_btn_url', ['label' => __( 'Button URL', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::URL, 'default' => ['url' => '#']]);
+        $this->add_control('business_image', ['label' => __( 'Image', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::MEDIA]);
+        $this->add_control('business_script', ['label' => __( 'Image Script Text', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => "Care<br>Nurture<br>Better Lives"]);
+        $this->end_controls_section();
+
+        // 4. Philosophy Section
+        $this->start_controls_section('phil_sec', ['label' => __( 'Philosophy', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
+        $this->add_control('phil_eyebrow', ['label' => __( 'Eyebrow', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Filosofi Kami']);
+        $this->add_control('phil_title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Nilai Sederhana, Dunia yang Lebih Sehat']);
+        
+        $repeater_ph = new \Elementor\Repeater();
+        $repeater_ph->add_control('icon', ['label' => __( 'Icon/Emoji', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
+        $repeater_ph->add_control('title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT]);
+        $repeater_ph->add_control('text', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA]);
+        $this->add_control('phil_list', ['label' => __( 'Cards', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::REPEATER, 'fields' => $repeater_ph->get_controls(), 'default' => [
+            ['icon' => '🌿', 'title' => 'Perawatan Hewan', 'text' => 'Kambing yang sehat dan bahagia adalah jantung dari semua yang kami kerjakan.'],
+            ['icon' => '♥', 'title' => 'Kesegaran', 'text' => 'Dari kandang ke meja Anda, kami menjaga produk tetap alami, segar, dan berkualitas.'],
+            ['icon' => '👪', 'title' => 'Untuk Keluarga', 'text' => 'Nutrisi yang mendekatkan keluarga, hari ini dan untuk generasi mendatang.'],
+        ]]);
+        $this->end_controls_section();
+
+        // 5. CTA Section
+        $this->start_controls_section('cta_sec', ['label' => __( 'Call To Action', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_CONTENT]);
+        $this->add_control('cta_eyebrow', ['label' => __( 'Eyebrow', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Mari Terhubung']);
+        $this->add_control('cta_title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Datang, Lihat, dan Rasakan Sendiri']);
+        $this->add_control('cta_desc', ['label' => __( 'Description', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'Kunjungi peternakan kami atau bergabung sebagai mitra investasi.']);
+        $this->add_control('cta_btn1_label', ['label' => __( 'Button 1 Label', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Pesan Farm Tour']);
+        $this->add_control('cta_btn1_url', ['label' => __( 'Button 1 URL', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::URL, 'default' => ['url' => '#']]);
+        $this->add_control('cta_btn2_label', ['label' => __( 'Button 2 Label', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Investasi']);
+        $this->add_control('cta_btn2_url', ['label' => __( 'Button 2 URL', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::URL, 'default' => ['url' => '#']]);
         $this->end_controls_section();
     }
 
@@ -47,57 +86,103 @@ class Rida_Widget_About_Page extends \Elementor\Widget_Base {
         $settings = $this->get_settings_for_display();
         ?>
         <div class="about-page-wrapper">
-            <!-- Hero Section -->
-            <section class="ap-hero section-padding">
-                <div class="container text-center">
-                    <p class="subheading animate-fade-up"><span class="line"></span> <span><?php echo esc_html($settings['hero_subheading']); ?></span> <span class="line"></span></p>
-                    <h1 class="ap-hero-title animate-text"><?php echo wp_kses_post($settings['hero_title']); ?></h1>
-                    <p class="ap-hero-desc animate-fade-up"><?php echo wp_kses_post($settings['hero_desc']); ?></p>
-                </div>
-                <div class="container animate-fade-up">
-                    <div class="ap-hero-img-wrap reveal-wrap mt-5">
-                        <img src="<?php echo esc_url($settings['hero_image']['url']); ?>" alt="About Rida Farm" class="parallax-img" loading="lazy" />
+            
+            <!-- Founder Section -->
+            <section class="ap-new-section">
+                <div class="ap-new-wrap">
+                    <div class="ap-new-grid">
+                        <div class="ap-new-ph">
+                            <?php if(!empty($settings['founder_image']['url'])): ?>
+                                <img src="<?php echo esc_url($settings['founder_image']['url']); ?>" alt="Founder" loading="lazy" />
+                            <?php else: ?>
+                                <div style="background:var(--primary);width:100%;height:100%;position:absolute;inset:0;"></div>
+                            <?php endif; ?>
+                            <span class="ap-new-script"><?php echo wp_kses_post($settings['founder_script']); ?></span>
+                        </div>
+                        <div>
+                            <div class="ap-new-eyebrow"><?php echo esc_html($settings['founder_eyebrow']); ?></div>
+                            <h2><?php echo esc_html($settings['founder_title']); ?></h2>
+                            <?php echo wp_kses_post($settings['founder_desc']); ?>
+                            <p class="ap-new-quote"><?php echo esc_html($settings['founder_quote']); ?></p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Mission & Vision Section -->
-            <section class="ap-mission section-padding bg-white">
-                <div class="container">
-                    <div class="ap-mission-grid">
-                        <div class="ap-mission-content animate-fade-up">
-                            <h2 class="ap-heading"><?php echo esc_html($settings['mission_title']); ?></h2>
-                            <p class="ap-desc"><?php echo wp_kses_post($settings['mission_desc']); ?></p>
-                            <div class="quote handwritten ap-quote"><?php echo wp_kses_post($settings['mission_quote']); ?></div>
-                        </div>
-                        <div class="ap-vision-content animate-fade-up">
-                            <?php if(!empty($settings['mission_image']['url'])) : ?>
-                                <img src="<?php echo esc_url($settings['mission_image']['url']); ?>" alt="Mission Image" class="ap-mission-img" />
-                            <?php else : ?>
-                                <h3 class="ap-heading-sm"><?php echo esc_html($settings['vision_title']); ?></h3>
-                                <p class="ap-desc m-0"><?php echo wp_kses_post($settings['vision_desc']); ?></p>
+            <!-- Journey Section -->
+            <section class="ap-new-section ap-new-alt">
+                <div class="ap-new-wrap">
+                    <div class="ap-new-center">
+                        <div class="ap-new-eyebrow"><?php echo esc_html($settings['journey_eyebrow']); ?></div>
+                        <h2><?php echo esc_html($settings['journey_title']); ?></h2>
+                    </div>
+                    <div class="ap-new-tl" style="max-width:720px;margin-inline:auto">
+                        <?php foreach($settings['journey_list'] as $j): ?>
+                            <div><b><?php echo esc_html($j['year']); ?></b><br><span><?php echo esc_html($j['text']); ?></span></div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="ap-new-stats">
+                        <?php foreach($settings['stats_list'] as $s): ?>
+                            <div class="ap-new-stat"><b><?php echo esc_html($s['num']); ?></b><span><?php echo esc_html($s['label']); ?></span></div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Business Section -->
+            <section class="ap-new-section">
+                <div class="ap-new-wrap">
+                    <div class="ap-new-grid">
+                        <div>
+                            <div class="ap-new-eyebrow"><?php echo esc_html($settings['business_eyebrow']); ?></div>
+                            <h2><?php echo esc_html($settings['business_title']); ?></h2>
+                            <?php echo wp_kses_post($settings['business_desc']); ?>
+                            <?php if(!empty($settings['business_btn_label'])): ?>
+                                <a class="ap-new-btn" href="<?php echo esc_url($settings['business_btn_url']['url']); ?>"><?php echo esc_html($settings['business_btn_label']); ?></a>
                             <?php endif; ?>
                         </div>
+                        <div class="ap-new-ph">
+                            <?php if(!empty($settings['business_image']['url'])): ?>
+                                <img src="<?php echo esc_url($settings['business_image']['url']); ?>" alt="Business" loading="lazy" />
+                            <?php else: ?>
+                                <div style="background:var(--primary);width:100%;height:100%;position:absolute;inset:0;"></div>
+                            <?php endif; ?>
+                            <span class="ap-new-script"><?php echo wp_kses_post($settings['business_script']); ?></span>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Core Values Section -->
-            <section class="ap-values section-padding">
-                <div class="container text-center">
-                    <p class="subheading animate-fade-up"><span class="line"></span> <span><?php echo esc_html($settings['values_subheading']); ?></span> <span class="line"></span></p>
-                    <h2 class="ap-heading animate-text mb-5"><?php echo esc_html($settings['values_title']); ?></h2>
-                    
-                    <div class="ap-values-grid">
-                        <?php foreach ($settings['values_list'] as $value) : ?>
-                        <div class="ap-value-card animate-fade-up">
-                            <div class="ap-value-icon">
-                                <?php \Elementor\Icons_Manager::render_icon($value['icon'], [ 'aria-hidden' => 'true' ]); ?>
+            <!-- Philosophy Section -->
+            <section class="ap-new-section ap-new-alt">
+                <div class="ap-new-wrap ap-new-center">
+                    <div class="ap-new-eyebrow"><?php echo esc_html($settings['phil_eyebrow']); ?></div>
+                    <h2><?php echo esc_html($settings['phil_title']); ?></h2>
+                    <div class="ap-new-cards">
+                        <?php foreach($settings['phil_list'] as $p): ?>
+                            <div class="ap-new-card">
+                                <div class="ap-new-ic"><?php echo esc_html($p['icon']); ?></div>
+                                <h3><?php echo esc_html($p['title']); ?></h3>
+                                <p><?php echo esc_html($p['text']); ?></p>
                             </div>
-                            <h3 class="ap-heading-sm text-center"><?php echo esc_html($value['title']); ?></h3>
-                            <p class="ap-desc text-center m-0"><?php echo wp_kses_post($value['desc']); ?></p>
-                        </div>
                         <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="ap-new-section">
+                <div class="ap-new-wrap">
+                    <div class="ap-new-cta ap-new-center">
+                        <div class="ap-new-eyebrow" style="color:var(--accent)"><?php echo esc_html($settings['cta_eyebrow']); ?></div>
+                        <h2><?php echo esc_html($settings['cta_title']); ?></h2>
+                        <p><?php echo esc_html($settings['cta_desc']); ?></p>
+                        <?php if(!empty($settings['cta_btn1_label'])): ?>
+                            <a class="ap-new-btn" href="<?php echo esc_url($settings['cta_btn1_url']['url']); ?>"><?php echo esc_html($settings['cta_btn1_label']); ?></a>
+                        <?php endif; ?>
+                        <?php if(!empty($settings['cta_btn2_label'])): ?>
+                            <a class="ap-new-btn o" href="<?php echo esc_url($settings['cta_btn2_url']['url']); ?>"><?php echo esc_html($settings['cta_btn2_label']); ?></a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </section>

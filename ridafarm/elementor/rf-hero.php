@@ -49,14 +49,6 @@ class Rida_Widget_Hero extends \Elementor\Widget_Base {
                     <i class="fa-solid fa-play" aria-hidden="true"></i>
                 </a>
                 <span class="play-text"><?php echo wp_kses_post($settings['play_text']); ?></span>
-                <svg class="drawn-arrow" width="40" height="40" viewBox="0 0 100 100">
-                    <path d="M20,20 Q40,80 80,60" fill="none" stroke="#fff" stroke-width="2.5" marker-end="url(#arrowhead)"/>
-                    <defs>
-                        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#fff" />
-                        </marker>
-                    </defs>
-                </svg>
             </div>
             <p class="hero-handwritten handwritten"><?php echo wp_kses_post($settings['handwritten']); ?></p>
         </section>

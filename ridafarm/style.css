@@ -558,12 +558,6 @@ img.hero-bg-img {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.drawn-arrow {
-	position: absolute;
-	bottom: -38px;
-	left: 10px;
-	opacity: 0.9;
-}
 
 /* Bottom-right: handwritten */
 .hero-handwritten {
@@ -1585,4 +1579,43 @@ body.menu-open {
 /* Fix scroll offset for sticky navbar */
 section {
 	scroll-margin-top: 0px;
+}
+
+/* --- About Us Single Page New Styles --- */
+.ap-new-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.ap-new-section { padding: 88px 0; }
+.ap-new-alt { background: var(--bg-main); }
+.ap-new-eyebrow { display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--primary); margin-bottom: 16px; }
+.ap-new-eyebrow:before { content: ""; width: 40px; height: 1px; background: var(--accent); }
+.ap-new-center .ap-new-eyebrow { justify-content: center; }
+.ap-new-center { text-align: center; }
+.ap-new-section h2 { font-size: clamp(30px, 4.5vw, 46px); color: var(--primary); font-family: var(--font-heading); margin-bottom: 0.5em; line-height: 1.2; }
+.ap-new-script { font-family: 'Caveat', cursive; font-size: 26px; color: var(--accent); }
+.ap-new-btn { display: inline-block; padding: 14px 28px; border-radius: 999px; background: var(--primary); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; margin: 8px 10px 0 0; }
+.ap-new-btn.o { background: transparent; border: 1.5px solid currentColor; color: var(--primary); }
+.ap-new-grid { display: grid; gap: 48px; grid-template-columns: 1fr 1fr; align-items: center; }
+.ap-new-ph { border-radius: 20px; background: var(--primary); min-height: 420px; display: flex; align-items: flex-end; padding: 24px; color: #fff; position: relative; overflow: hidden; }
+.ap-new-ph svg, .ap-new-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.ap-new-ph:after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(15,31,22,.8)); z-index: 2; }
+.ap-new-ph .ap-new-script { position: relative; z-index: 3; color: #fff; font-size: 30px; line-height: 1.2; }
+.ap-new-quote { font-family: 'Caveat', cursive; font-size: 26px; color: var(--accent); border-left: 2px solid var(--accent); padding-left: 16px; margin: 24px 0 0; }
+.ap-new-cards { display: grid; gap: 32px; grid-template-columns: repeat(3, 1fr); margin-top: 48px; }
+.ap-new-card { text-align: center; padding: 0 8px; }
+.ap-new-ic { width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: var(--bg-white); display: grid; place-items: center; margin: 0 auto 16px; font-size: 24px; }
+.ap-new-card h3 { font-size: 24px; color: var(--primary); font-family: var(--font-heading); margin-bottom: 0.5em; }
+.ap-new-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
+.ap-new-stat { background: var(--bg-white); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; }
+.ap-new-stat b { display: block; font-family: var(--font-heading); font-size: 34px; color: var(--primary); }
+.ap-new-tl { border-left: 2px solid var(--border); margin: 40px 0 0 8px; padding-left: 32px; }
+.ap-new-tl > div { position: relative; padding-bottom: 32px; }
+.ap-new-tl > div:before { content: ""; position: absolute; left: -41px; top: 8px; width: 16px; height: 16px; border-radius: 50%; background: var(--primary); border: 3px solid var(--bg-white); }
+.ap-new-tl b { color: var(--primary); font-family: var(--font-heading); font-size: 20px; }
+.ap-new-cta { background: var(--primary); color: #fdfcf8; border-radius: 28px; padding: 64px 32px; }
+.ap-new-cta h2 { color: #fdfcf8; }
+.ap-new-cta .ap-new-btn { background: var(--bg-main); color: var(--primary); }
+.ap-new-cta .ap-new-btn.o { background: transparent; color: #fdfcf8; border-color: rgba(253, 252, 248, 0.5); }
+@media(max-width:800px) {
+    .ap-new-grid, .ap-new-cards, .ap-new-stats { grid-template-columns: 1fr; }
+    .ap-new-stats { grid-template-columns: 1fr 1fr; }
+    .ap-new-section { padding: 64px 0; }
 }
