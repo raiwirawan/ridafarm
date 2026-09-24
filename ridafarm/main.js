@@ -29,7 +29,8 @@ function initRidaFarm() {
         // Stagger animations
         const staggerGroups = [
             document.querySelectorAll('.philosophy-grid .animate-stagger'),
-            document.querySelectorAll('.news-grid .animate-stagger')
+            document.querySelectorAll('.news-grid .animate-stagger'),
+            document.querySelectorAll('.ap-team-grid .animate-stagger')
         ];
         staggerGroups.forEach(group => {
             group.forEach((el, index) => {
@@ -309,7 +310,8 @@ function initRidaFarm() {
             if (index === 0) dot.classList.add('active');
             
             dot.addEventListener('click', () => {
-                const scrollTarget = philSlider.clientWidth * index;
+                const cardWidth = philCards[0].offsetWidth;
+                const scrollTarget = cardWidth * index;
                 philSlider.scrollTo({ left: scrollTarget, behavior: 'smooth' });
                 resetPhilInterval();
             });
@@ -321,7 +323,8 @@ function initRidaFarm() {
         let philAutoPlay;
 
         philSlider.addEventListener('scroll', () => {
-            const index = Math.round(philSlider.scrollLeft / philSlider.clientWidth);
+            const cardWidth = philCards[0].offsetWidth;
+            const index = Math.round(philSlider.scrollLeft / cardWidth);
             if (index !== currentPhilIndex && index >= 0 && index < philCards.length) {
                 if(philDots[currentPhilIndex]) philDots[currentPhilIndex].classList.remove('active');
                 currentPhilIndex = index;
@@ -335,7 +338,8 @@ function initRidaFarm() {
                 if (nextIndex >= philCards.length) {
                     nextIndex = 0;
                 }
-                philSlider.scrollTo({ left: philSlider.clientWidth * nextIndex, behavior: 'smooth' });
+                const cardWidth = philCards[0].offsetWidth;
+                philSlider.scrollTo({ left: cardWidth * nextIndex, behavior: 'smooth' });
             }
         };
 
@@ -350,6 +354,105 @@ function initRidaFarm() {
         philSlider.addEventListener('touchend', resetPhilInterval, {passive: true});
         philSlider.addEventListener('mouseenter', () => clearInterval(philAutoPlay));
         philSlider.addEventListener('mouseleave', resetPhilInterval);
+    }
+
+    // --- Team Slider Logic (About Page) ---
+    const teamSlider = document.getElementById('teamSlider');
+    const teamPrev = document.getElementById('teamPrev');
+    const teamNext = document.getElementById('teamNext');
+
+    if (teamSlider && teamPrev && teamNext) {
+        const updateTeamSliderButtons = () => {
+            if (teamSlider.scrollLeft <= 10) {
+                teamPrev.disabled = true;
+            } else {
+                teamPrev.disabled = false;
+            }
+            if (teamSlider.scrollLeft + teamSlider.clientWidth >= teamSlider.scrollWidth - 10) {
+                teamNext.disabled = true;
+            } else {
+                teamNext.disabled = false;
+            }
+        };
+
+        updateTeamSliderButtons();
+        teamSlider.addEventListener('scroll', updateTeamSliderButtons);
+
+        const scrollAmountTeam = 320 + 32;
+
+        teamPrev.addEventListener('click', () => {
+            teamSlider.scrollBy({ left: -scrollAmountTeam, behavior: 'smooth' });
+        });
+        teamNext.addEventListener('click', () => {
+            teamSlider.scrollBy({ left: scrollAmountTeam, behavior: 'smooth' });
+        });
+
+        // Mouse Drag to Scroll for Team Slider
+        let isDownTeam = false;
+        let startXTeam;
+        let scrollLeftTeam;
+        let isDraggingTeam = false;
+        let snapTimeoutTeam;
+
+        teamSlider.addEventListener('pointerdown', (e) => {
+            if (e.pointerType !== 'mouse' || e.button !== 0) return;
+            isDownTeam = true;
+            isDraggingTeam = false;
+            teamSlider.style.cursor = 'grabbing';
+            teamSlider.style.scrollSnapType = 'none';
+            teamSlider.style.scrollBehavior = 'auto';
+            clearTimeout(snapTimeoutTeam);
+            
+            startXTeam = e.pageX - teamSlider.offsetLeft;
+            scrollLeftTeam = teamSlider.scrollLeft;
+        });
+
+        const handlePointerUpTeam = (e) => {
+            if (!isDownTeam || e.pointerType !== 'mouse') return;
+            isDownTeam = false;
+            teamSlider.style.cursor = 'grab';
+            teamSlider.style.scrollBehavior = 'smooth';
+            
+            const paddingLeft = parseFloat(window.getComputedStyle(teamSlider).paddingLeft) || 0;
+            const currentScroll = teamSlider.scrollLeft;
+            const teamCards = Array.from(teamSlider.querySelectorAll('.ap-team-card'));
+            
+            if (teamCards.length === 0) return;
+            let closestCard = teamCards[0];
+            let minDiff = Infinity;
+
+            teamCards.forEach(card => {
+                const targetScroll = card.offsetLeft - paddingLeft;
+                const diff = Math.abs(currentScroll - targetScroll);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closestCard = card;
+                }
+            });
+
+            teamSlider.scrollLeft = closestCard.offsetLeft - paddingLeft;
+            
+            snapTimeoutTeam = setTimeout(() => {
+                if (!isDownTeam) { 
+                    teamSlider.style.scrollSnapType = '';
+                    teamSlider.style.scrollBehavior = '';
+                }
+            }, 600);
+        };
+
+        teamSlider.addEventListener('pointerleave', handlePointerUpTeam);
+        teamSlider.addEventListener('pointerup', handlePointerUpTeam);
+
+        teamSlider.addEventListener('pointermove', (e) => {
+            if (!isDownTeam || e.pointerType !== 'mouse') return;
+            e.preventDefault();
+            const x = e.pageX - teamSlider.offsetLeft;
+            const walk = (x - startXTeam) * 1.5;
+            if (Math.abs(walk) > 5) {
+                isDraggingTeam = true;
+            }
+            teamSlider.scrollLeft = scrollLeftTeam - walk;
+        });
     }
 }
 

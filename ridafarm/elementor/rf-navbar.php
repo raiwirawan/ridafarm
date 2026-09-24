@@ -29,11 +29,26 @@ class Rida_Widget_Navbar extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
+            'show_brand_name',
+            [
+                'label' => __( 'Show Brand Name Text?', 'ridafarm' ),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __( 'Show', 'ridafarm' ),
+                'label_off' => __( 'Hide', 'ridafarm' ),
+                'return_value' => 'yes',
+                'default' => '',
+            ]
+        );
+
+        $this->add_control(
             'brand_name',
             [
                 'label' => __( 'Brand Name', 'ridafarm' ),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => __( 'Rida Farm Bali', 'ridafarm' ),
+                'condition' => [
+                    'show_brand_name' => 'yes',
+                ],
             ]
         );
 
@@ -60,14 +75,15 @@ class Rida_Widget_Navbar extends \Elementor\Widget_Base {
                 'label' => __( 'Navigation Links', 'ridafarm' ),
                 'type' => \Elementor\Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
+                'title_field' => '{{{ link_text }}}',
                 'default' => [
                     [ 'link_text' => 'Home', 'link_url' => [ 'url' => '#home' ] ],
-                    [ 'link_text' => 'About Us', 'link_url' => [ 'url' => '#about' ] ],
-                    [ 'link_text' => 'Our Products', 'link_url' => [ 'url' => '#products' ] ],
-                    [ 'link_text' => 'News', 'link_url' => [ 'url' => '#news' ] ],
-                    [ 'link_text' => 'Contact', 'link_url' => [ 'url' => '#' ] ],
-                    [ 'link_text' => 'Farm Tour', 'link_url' => [ 'url' => '#' ] ],
-                    [ 'link_text' => 'Investment', 'link_url' => [ 'url' => '#' ] ],
+                    [ 'link_text' => 'Tentang Kami', 'link_url' => [ 'url' => '#about' ] ],
+                    [ 'link_text' => 'Produk', 'link_url' => [ 'url' => '#products' ] ],
+                    [ 'link_text' => 'Tur Peternakan', 'link_url' => [ 'url' => 'https://wa.me/6281936663738', 'is_external' => 'on' ] ],
+                    [ 'link_text' => 'Investasi', 'link_url' => [ 'url' => '#investasi' ] ],
+                    [ 'link_text' => 'Berita', 'link_url' => [ 'url' => '#news' ] ],
+                    [ 'link_text' => 'Kontak', 'link_url' => [ 'url' => '#contact' ] ],
                 ],
             ]
         );
@@ -85,19 +101,23 @@ class Rida_Widget_Navbar extends \Elementor\Widget_Base {
                     <?php if($logo_url): ?>
                         <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr($settings['brand_name']); ?>" class="logo-img">
                     <?php endif; ?>
+                    
+                    <?php if ( $settings['show_brand_name'] === 'yes' ) : ?>
                     <div class="logo-text">
                         <span class="brand-name"><?php echo esc_html($settings['brand_name']); ?></span>
                     </div>
+                    <?php endif; ?>
                 </a>
                 <div class="nav-links">
-                    <?php if ( $settings['nav_links'] ) : ?>
+                    <?php if ( !empty($settings['nav_links']) && is_array($settings['nav_links']) ) : ?>
                         <?php foreach ( $settings['nav_links'] as $index => $item ) : 
-                            $target = $item['link_url']['is_external'] ? ' target="_blank"' : '';
-                            $nofollow = $item['link_url']['nofollow'] ? ' rel="nofollow"' : '';
+                            $url = !empty($item['link_url']['url']) ? $item['link_url']['url'] : '#';
+                            $target = !empty($item['link_url']['is_external']) ? ' target="_blank"' : '';
+                            $nofollow = !empty($item['link_url']['nofollow']) ? ' rel="nofollow"' : '';
                             // Make first item active by default for styling
                             $active_class = ($index === 0) ? ' active' : '';
                         ?>
-                            <a href="<?php echo esc_url($item['link_url']['url']); ?>" class="nav-link<?php echo $active_class; ?>" <?php echo $target . $nofollow; ?>>
+                            <a href="<?php echo esc_url($url); ?>" class="nav-link<?php echo $active_class; ?>" <?php echo $target . $nofollow; ?>>
                                 <?php echo esc_html($item['link_text']); ?>
                             </a>
                         <?php endforeach; ?>
