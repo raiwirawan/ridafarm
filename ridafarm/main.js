@@ -454,6 +454,51 @@ function initRidaFarm() {
             teamSlider.scrollLeft = scrollLeftTeam - walk;
         });
     }
+
+    // --- Draggable Slider (Products Page) ---
+    const sliders = document.querySelectorAll('[data-slider]');
+    sliders.forEach(slider => {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('pointerdown', (e) => {
+            if (e.pointerType !== 'mouse') return;
+            if (slider.scrollWidth <= slider.clientWidth) return;
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+            slider.style.scrollSnapType = 'none';
+        });
+
+        slider.addEventListener('pointerleave', (e) => {
+            if (e.pointerType !== 'mouse') return;
+            isDown = false;
+            slider.style.cursor = 'grab';
+            slider.style.scrollSnapType = 'x mandatory';
+        });
+
+        slider.addEventListener('pointerup', (e) => {
+            if (e.pointerType !== 'mouse') return;
+            isDown = false;
+            slider.style.cursor = 'grab';
+            slider.style.scrollSnapType = 'x mandatory';
+        });
+
+        slider.addEventListener('pointermove', (e) => {
+            if (!isDown || e.pointerType !== 'mouse') return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+        
+        // Prevent default drag behavior on images to allow slider dragging
+        slider.querySelectorAll('img').forEach(img => {
+            img.addEventListener('dragstart', (e) => e.preventDefault());
+        });
+    });
 }
 
 if (document.readyState === 'loading') {
@@ -461,3 +506,4 @@ if (document.readyState === 'loading') {
 } else {
     initRidaFarm();
 }
+

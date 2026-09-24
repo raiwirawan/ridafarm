@@ -761,7 +761,7 @@ img.hero-bg-img {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	margin-bottom: 4rem;
+	margin-bottom: 0.5rem;
 }
 
 .news-header-left {
@@ -1618,4 +1618,182 @@ section {
     .ap-new-grid, .ap-new-cards, .ap-new-stats { grid-template-columns: 1fr; }
     .ap-new-stats { grid-template-columns: 1fr 1fr; }
     .ap-new-section { padding: 64px 0; }
+}
+
+/* --- Products Single Page Styles --- */
+.pp-section {
+    background: var(--bg-main);
+}
+.pp-header {
+    max-width: 600px;
+    margin-bottom: 3rem;
+}
+.pp-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+.pp-eyebrow .line {
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+}
+.pp-title-main {
+    font-family: var(--font-heading);
+    font-size: clamp(30px, 4.5vw, 46px);
+    color: var(--primary);
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+}
+.pp-desc-main {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+.pp-slider-wrapper {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+}
+.pp-slider {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scrollbar-width: none; /* Firefox */
+    scroll-snap-type: x mandatory;
+    cursor: grab;
+    
+    /* Use scroll-padding so snapping respects the gap */
+    scroll-padding-left: max(40px, 50vw - 660px);
+}
+.pp-slider:active {
+    cursor: grabbing;
+}
+.pp-slider::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+.pp-card {
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    width: 380px; /* Fixed width to ensure consistent sizing and overflow */
+    max-width: 85vw; /* Ensure it fits on mobile */
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    user-select: none;
+}
+.pp-card:first-child {
+    margin-left: max(40px, 50vw - 660px);
+}
+.pp-card:last-child {
+    margin-right: max(40px, 50vw - 660px);
+}
+@media (max-width: 1024px) {
+    .pp-slider {
+        scroll-padding-left: 40px;
+    }
+    .pp-card:first-child {
+        margin-left: 40px;
+    }
+    .pp-card:last-child {
+        margin-right: 40px;
+    }
+}
+@media (max-width: 768px) {
+    .pp-slider {
+        scroll-padding-left: 24px;
+        gap: 20px;
+    }
+    .pp-card:first-child {
+        margin-left: 24px;
+    }
+    .pp-card:last-child {
+        margin-right: 24px;
+    }
+    .pp-card {
+        min-width: 280px;
+    }
+}
+.pp-img-wrap {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    background: #e8dfc6; /* placeholder */
+}
+.pp-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.pp-card:hover .pp-img-wrap img {
+    transform: scale(1.05);
+}
+.pp-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #e8dfc6;
+}
+.pp-cat {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+.pp-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+.pp-desc {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+.pp-price-wrap {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+.pp-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+.pp-unit {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+.pp-btn {
+    align-self: flex-start;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #2a4b3a;
+    color: #ffffff !important;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.pp-btn:hover {
+    background-color: var(--primary);
+    transform: translateY(-2px);
 }
