@@ -22,6 +22,7 @@ function ridafarm_register_widgets($widgets_manager) {
     require_once get_template_directory() . '/elementor/rf-single-news.php';
     require_once get_template_directory() . '/elementor/rf-about-page.php';
     require_once get_template_directory() . '/elementor/rf-products-page.php';
+    require_once get_template_directory() . '/elementor/rf-farmtour-page.php';
     require_once get_template_directory() . '/elementor/rf-investor-banner.php';
 
     $widgets_manager->register(new \Rida_Widget_Navbar());
@@ -34,6 +35,7 @@ function ridafarm_register_widgets($widgets_manager) {
     $widgets_manager->register(new \Rida_Widget_Single_News());
     $widgets_manager->register(new \Rida_Widget_About_Page());
     $widgets_manager->register(new \Rida_Widget_Products_Page());
+    $widgets_manager->register(new \Rida_Widget_FarmTour_Page());
     $widgets_manager->register(new \Rida_Widget_InvestorBanner());
 }
 add_action('elementor/widgets/register', 'ridafarm_register_widgets');
@@ -45,3 +47,31 @@ function ridafarm_theme_setup() {
     add_theme_support('menus');
 }
 add_action('after_setup_theme', 'ridafarm_theme_setup');
+
+// 4. Customizer Settings
+function ridafarm_customize_register($wp_customize) {
+    $wp_customize->add_section('rf_floating_wa', [
+        'title' => __('Floating WhatsApp', 'ridafarm'),
+        'priority' => 100,
+    ]);
+    
+    $wp_customize->add_setting('rf_wa_url', [
+        'default' => 'https://wa.me/6281234567890',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+    $wp_customize->add_control('rf_wa_url', [
+        'label' => __('WhatsApp Link URL', 'ridafarm'),
+        'section' => 'rf_floating_wa',
+        'type' => 'url',
+    ]);
+
+    $wp_customize->add_setting('rf_wa_image', [
+        'default' => get_template_directory_uri() . '/assets/whatsapp-logo.png',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'rf_wa_image', [
+        'label' => __('WhatsApp Icon Image', 'ridafarm'),
+        'section' => 'rf_floating_wa',
+    ]));
+}
+add_action('customize_register', 'ridafarm_customize_register');
