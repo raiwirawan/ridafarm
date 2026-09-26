@@ -23,6 +23,7 @@ function ridafarm_register_widgets($widgets_manager) {
     require_once get_template_directory() . '/elementor/rf-about-page.php';
     require_once get_template_directory() . '/elementor/rf-products-page.php';
     require_once get_template_directory() . '/elementor/rf-farmtour-page.php';
+    require_once get_template_directory() . '/elementor/rf-investment-page.php';
     require_once get_template_directory() . '/elementor/rf-investor-banner.php';
 
     $widgets_manager->register(new \Rida_Widget_Navbar());
@@ -36,6 +37,7 @@ function ridafarm_register_widgets($widgets_manager) {
     $widgets_manager->register(new \Rida_Widget_About_Page());
     $widgets_manager->register(new \Rida_Widget_Products_Page());
     $widgets_manager->register(new \Rida_Widget_FarmTour_Page());
+    $widgets_manager->register(new \Rida_Widget_Investment_Page());
     $widgets_manager->register(new \Rida_Widget_InvestorBanner());
 }
 add_action('elementor/widgets/register', 'ridafarm_register_widgets');

@@ -13,6 +13,23 @@ class Rida_Widget_FarmTour_Page extends \Elementor\Widget_Base {
         $this->add_control('hero_image', ['label' => __( 'Background Image', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::MEDIA]);
         $this->add_control('hero_eyebrow', ['label' => __( 'Eyebrow', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'FARM TOUR']);
         $this->add_control('hero_title', ['label' => __( 'Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'A Return To Roots']);
+        $this->add_control('hero_eyebrow_color', [
+            'label' => __( 'Eyebrow Color', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => ['{{WRAPPER}} .ft-hero-eyebrow' => 'color: {{VALUE}} !important;'],
+        ]);
+        $this->add_control('hero_title_color', [
+            'label' => __( 'Title Inner Color', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => ['{{WRAPPER}} .ft-hero-title' => 'color: {{VALUE}} !important;'],
+        ]);
+        $this->add_control('hero_outline_color', [
+            'label' => __( 'Title Outline Color', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .ft-hero-title' => '-webkit-text-stroke: 1.5px {{VALUE}}; text-shadow: -1px -1px 0 {{VALUE}}, 1px -1px 0 {{VALUE}}, -1px 1px 0 {{VALUE}}, 1px 1px 0 {{VALUE}};',
+            ],
+        ]);
         $this->end_controls_section();
 
         // 2. Intro Section
@@ -47,6 +64,12 @@ class Rida_Widget_FarmTour_Page extends \Elementor\Widget_Base {
         $this->start_controls_section('form_sec', ['label' => __( 'Booking Form', 'ridafarm' )]);
         $this->add_control('form_title', ['label' => __( 'Form Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'BOOK A TOUR']);
         $this->add_control('form_info', ['label' => __( 'Price Info Block', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::WYSIWYG, 'default' => '<ul><li><strong>Morning Session:</strong> 09:00 AM - 12:00 PM</li><li><strong>Afternoon Session:</strong> 02:00 PM - 05:00 PM</li></ul>']);
+        $this->add_control('form_wa_number', [
+            'label' => __( 'WhatsApp Number', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::TEXT,
+            'default' => '6281936663738',
+            'description' => 'Gunakan kode negara tanpa +, contoh: 6281936663738',
+        ]);
         $this->add_control('form_btn', ['label' => __( 'Submit Button Text', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'CHECK AVAILABILITY']);
         $this->end_controls_section();
     }
@@ -123,21 +146,24 @@ class Rida_Widget_FarmTour_Page extends \Elementor\Widget_Base {
             <section class="ft-booking container" id="booking-form">
                 <div class="ft-form-box">
                     <h3 class="ft-form-title"><?php echo esc_html($settings['form_title']); ?></h3>
-                    <form class="ft-form" onsubmit="event.preventDefault();">
+                    <form class="ft-form" id="ftBookingForm" data-wa-number="<?php echo esc_attr($settings['form_wa_number']); ?>" onsubmit="event.preventDefault();">
                         <div class="ft-form-group">
-                            <input type="text" placeholder="Name *" required>
+                            <input type="text" id="ftName" placeholder="Name *" required>
                         </div>
                         <div class="ft-form-group">
-                            <input type="email" placeholder="Email *" required>
+                            <input type="email" id="ftEmail" placeholder="Email *" required>
                         </div>
                         <div class="ft-form-group">
-                            <input type="text" placeholder="WhatsApp *" required>
+                            <input type="text" id="ftWA" placeholder="WhatsApp *" required>
                         </div>
                         <div class="ft-form-group">
-                            <select required>
+                            <input type="date" id="ftDate" title="Select Date" required>
+                        </div>
+                        <div class="ft-form-group">
+                            <select id="ftSession" required>
                                 <option value="" disabled selected>Tour requested *</option>
-                                <option value="morning">Morning Session (09:00 AM)</option>
-                                <option value="afternoon">Afternoon Session (02:00 PM)</option>
+                                <option value="Morning Session">Morning Session (09:00 AM)</option>
+                                <option value="Afternoon Session">Afternoon Session (02:00 PM)</option>
                             </select>
                         </div>
                         
@@ -150,13 +176,13 @@ class Rida_Widget_FarmTour_Page extends \Elementor\Widget_Base {
 
                         <div class="ft-form-row">
                             <div class="ft-form-group">
-                                <input type="number" placeholder="Number of Adults *" min="1" required>
+                                <input type="number" id="ftAdults" placeholder="Number of Adults *" min="1" required>
                             </div>
                             <div class="ft-form-group">
-                                <input type="number" placeholder="Children" min="0">
+                                <input type="number" id="ftChildren" placeholder="Children" min="0">
                             </div>
                             <div class="ft-form-group ft-btn-group">
-                                <button type="submit" class="btn pp-btn ft-btn w-100 justify-center"><?php echo esc_html($settings['form_btn']); ?></button>
+                                <button type="submit" id="ftSubmitBtn" class="btn pp-btn ft-btn w-100 justify-center" disabled style="opacity:0.5; cursor:not-allowed;"><?php echo esc_html($settings['form_btn']); ?></button>
                             </div>
                         </div>
                     </form>
@@ -181,6 +207,78 @@ class Rida_Widget_FarmTour_Page extends \Elementor\Widget_Base {
                     document.getElementById(targetId).classList.add('active');
                 });
             });
+
+            // Form validation and WhatsApp integration
+            const bookingForm = document.getElementById('ftBookingForm');
+            if (bookingForm) {
+                const submitBtn = document.getElementById('ftSubmitBtn');
+                const inputs = bookingForm.querySelectorAll('input[required], select[required]');
+                
+                // Function to check if form is valid
+                const checkFormValidity = () => {
+                    let isValid = true;
+                    inputs.forEach(input => {
+                        if (!input.value.trim() || !input.checkValidity()) {
+                            isValid = false;
+                        }
+                    });
+                    
+                    if (isValid) {
+                        submitBtn.disabled = false;
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.cursor = 'pointer';
+                    } else {
+                        submitBtn.disabled = true;
+                        submitBtn.style.opacity = '0.5';
+                        submitBtn.style.cursor = 'not-allowed';
+                    }
+                };
+
+                // Add event listeners to all required inputs
+                inputs.forEach(input => {
+                    input.addEventListener('input', checkFormValidity);
+                    input.addEventListener('change', checkFormValidity);
+                });
+
+                // Handle submission
+                bookingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('ftName').value.trim();
+                    const email = document.getElementById('ftEmail').value.trim();
+                    const wa = document.getElementById('ftWA').value.trim();
+                    const date = document.getElementById('ftDate').value;
+                    const session = document.getElementById('ftSession').value;
+                    const adults = document.getElementById('ftAdults').value;
+                    const children = document.getElementById('ftChildren').value || '0';
+                    
+                    // Format Date to DD/MM/YYYY if standard YYYY-MM-DD
+                    let formattedDate = date;
+                    if(date) {
+                        const parts = date.split('-');
+                        if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                    }
+
+                    const message = `Halo Rida Farm! Saya ingin mengecek ketersediaan Farm Tour.
+Berikut detail pesanan saya:
+
+*Nama:* ${name}
+*Email:* ${email}
+*No. WhatsApp:* ${wa}
+*Tanggal:* ${formattedDate}
+*Sesi:* ${session}
+*Jumlah Dewasa:* ${adults} orang
+*Jumlah Anak-anak:* ${children} orang
+
+Mohon infonya ya, terima kasih!`;
+
+                    const targetWA = bookingForm.getAttribute('data-wa-number') || '6281936663738';
+                    const encodedMessage = encodeURIComponent(message);
+                    const waURL = `https://wa.me/${targetWA}?text=${encodedMessage}`;
+                    
+                    window.open(waURL, '_blank');
+                });
+            }
         });
         </script>
         <?php

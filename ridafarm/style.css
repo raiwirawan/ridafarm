@@ -2130,3 +2130,379 @@ section {
         gap: 10px;
     }
 }
+
+/* --- Investment Page --- */
+.inv-wrapper {
+    background-color: var(--bg-white);
+}
+.inv-section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(32px, 4vw, 48px);
+    color: var(--primary);
+    margin-bottom: 40px;
+}
+
+/* 1. Hero */
+.inv-hero {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    padding-top: 80px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.inv-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 62, 44, 0.6);
+}
+.inv-hero-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    padding: 0 20px;
+    max-width: 800px;
+}
+.inv-hero-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.inv-hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+.inv-hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--bg-main);
+}
+
+/* 2. Why Invest */
+.inv-why {
+    background-color: var(--bg-main);
+}
+.inv-why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+.inv-why-card {
+    background: var(--bg-white);
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease;
+}
+.inv-why-card:hover {
+    transform: translateY(-5px);
+}
+.inv-why-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+.inv-why-card-title {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+.inv-why-desc {
+    color: var(--text-dark);
+}
+
+/* 3. Use of Funds */
+.inv-funds-layout {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.inv-fund-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.inv-fund-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+.inv-fund-pct {
+    color: var(--primary);
+    font-weight: 700;
+}
+.inv-bar-row {
+    height: 30px;
+    background: var(--border);
+    border-radius: 15px;
+    overflow: hidden;
+}
+.inv-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 15px;
+    transition: width 1s ease-in-out;
+}
+
+/* 4. Packages */
+.inv-packages {
+    background-color: var(--bg-main);
+}
+.inv-pkg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+.inv-pkg-card {
+    background: var(--bg-white);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.inv-pkg-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+.inv-pkg-highlight {
+    border-color: var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(26,62,44,0.1);
+}
+.inv-pkg-highlight:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+.inv-pkg-name {
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+.inv-pkg-price {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+}
+.inv-pkg-features {
+    list-style: none;
+    margin-bottom: 30px;
+    flex-grow: 1;
+}
+.inv-pkg-features li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+.inv-pkg-features strong {
+    color: var(--primary);
+    text-align: right;
+}
+
+/* 5. Calculator */
+.inv-calc-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 50px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+}
+.inv-calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 40px;
+}
+.inv-calc-input label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-dark);
+}
+.inv-calc-group.mt-group {
+    margin-top: 25px;
+}
+.inv-calc-input input, .inv-calc-input select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    background: var(--bg-white);
+    outline: none;
+}
+.inv-calc-input input:focus, .inv-calc-input select:focus {
+    border-color: var(--primary);
+}
+.inv-calc-result {
+    background: var(--bg-main);
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+.inv-res-item {
+    display: flex;
+    flex-direction: column;
+}
+.inv-res-item span {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+.inv-res-item strong {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+.inv-res-final {
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border);
+}
+.inv-res-final strong {
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+/* 6. Transparency Accordion */
+.inv-trans {
+    background: var(--bg-main);
+}
+.inv-acc-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.inv-acc-item {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+.inv-acc-btn {
+    width: 100%;
+    text-align: left;
+    padding: 20px 25px;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+.inv-acc-btn:hover {
+    background: rgba(0,0,0,0.02);
+}
+.inv-acc-btn i {
+    transition: transform 0.3s ease;
+}
+.inv-acc-btn.active i {
+    transform: rotate(180deg);
+}
+.inv-acc-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.inv-acc-inner {
+    padding: 0 25px 25px 25px;
+    color: var(--text-dark);
+}
+
+/* 7. Form */
+.inv-form-box {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 50px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+}
+.inv-form-title {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+}
+.inv-form-group {
+    margin-bottom: 20px;
+}
+.inv-form-group input, .inv-form-group select, .inv-form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    outline: none;
+    background: var(--bg-white);
+    transition: border-color 0.3s ease;
+}
+.inv-form-group textarea {
+    resize: vertical;
+}
+.inv-form-group input:focus, .inv-form-group select:focus, .inv-form-group textarea:focus {
+    border-color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .inv-why-grid, .inv-pkg-grid, .inv-calc-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .inv-pkg-highlight {
+        transform: none;
+    }
+    .inv-pkg-highlight:hover {
+        transform: translateY(-5px);
+    }
+}
+@media (max-width: 768px) {
+    .inv-hero {
+        height: 60vh;
+        min-height: 450px;
+        padding-top: 80px;
+    }
+    .inv-pkg-card {
+        padding: 30px 20px;
+    }
+    .inv-why-card {
+        padding: 30px 20px;
+    }
+    .inv-section-title {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+    .inv-calc-box, .inv-form-box {
+        padding: 30px 20px;
+    }
+}
