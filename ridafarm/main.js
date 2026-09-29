@@ -243,7 +243,9 @@ function initRidaFarm() {
             // Find closest card to snap to
             const paddingLeft = parseFloat(window.getComputedStyle(newsSlider).paddingLeft) || 0;
             const currentScroll = newsSlider.scrollLeft;
-            const newsCards = Array.from(newsSlider.querySelectorAll('.news-card'));
+            const newsCards = Array.from(newsSlider.querySelectorAll('.news-card')).filter(card => card.style.display !== 'none');
+            
+            if(newsCards.length === 0) return;
             
             let closestCard = newsCards[0];
             let minDiff = Infinity;
@@ -284,13 +286,17 @@ function initRidaFarm() {
         });
 
         // Prevent clicking links when dragging
-        const newsCards = newsSlider.querySelectorAll('.news-card');
-        newsCards.forEach(card => {
+        const newsCardsList = newsSlider.querySelectorAll('.news-card');
+        newsCardsList.forEach(card => {
             card.addEventListener('click', (e) => {
                 if (isDragging) {
                     e.preventDefault();
                 }
             });
+        });
+
+        window.addEventListener('newsTabChanged', () => {
+            updateSliderButtons();
         });
     }
 
@@ -415,9 +421,8 @@ function initRidaFarm() {
             
             const paddingLeft = parseFloat(window.getComputedStyle(teamSlider).paddingLeft) || 0;
             const currentScroll = teamSlider.scrollLeft;
-            const teamCards = Array.from(teamSlider.querySelectorAll('.ap-team-card'));
+            const teamCards = Array.from(teamSlider.querySelectorAll('.team-card'));
             
-            if (teamCards.length === 0) return;
             let closestCard = teamCards[0];
             let minDiff = Infinity;
 
