@@ -6,9 +6,26 @@ function ridafarm_enqueue_assets() {
     wp_enqueue_style('ridafarm-fonts', 'https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
     wp_enqueue_style('ridafarm-fa', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
     wp_enqueue_style('ridafarm-style', get_stylesheet_uri(), [], filemtime(get_stylesheet_directory() . '/style.css'));
+    wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', [], '4.0.0', true);
     wp_enqueue_script('ridafarm-main', get_template_directory_uri() . '/main.js', [], filemtime(get_template_directory() . '/main.js'), true);
 }
 add_action('wp_enqueue_scripts', 'ridafarm_enqueue_assets');
+
+// Register Widget Assets
+function ridafarm_register_widget_assets() {
+    $denah_css = get_template_directory() . '/assets/denah/rf-denah.css';
+    $denah_js = get_template_directory() . '/assets/denah/rf-denah.js';
+    
+    if (file_exists($denah_css)) {
+        wp_register_style('rf-denah', get_template_directory_uri() . '/assets/denah/rf-denah.css', [], filemtime($denah_css));
+    }
+    if (file_exists($denah_js)) {
+        wp_register_script('rf-denah', get_template_directory_uri() . '/assets/denah/rf-denah.js', [], filemtime($denah_js), true);
+    }
+}
+add_action('wp_enqueue_scripts', 'ridafarm_register_widget_assets');
+add_action('elementor/frontend/after_register_scripts', 'ridafarm_register_widget_assets');
+add_action('elementor/frontend/after_register_styles', 'ridafarm_register_widget_assets');
 
 // 2. Register Custom Elementor Widgets
 function ridafarm_register_widgets($widgets_manager) {
@@ -25,6 +42,7 @@ function ridafarm_register_widgets($widgets_manager) {
     require_once get_template_directory() . '/elementor/rf-farmtour-page.php';
     require_once get_template_directory() . '/elementor/rf-investment-page.php';
     require_once get_template_directory() . '/elementor/rf-investor-banner.php';
+    require_once get_template_directory() . '/elementor/rf-denah.php';
 
     $widgets_manager->register(new \Rida_Widget_Navbar());
     $widgets_manager->register(new \Rida_Widget_Hero());
@@ -39,6 +57,7 @@ function ridafarm_register_widgets($widgets_manager) {
     $widgets_manager->register(new \Rida_Widget_FarmTour_Page());
     $widgets_manager->register(new \Rida_Widget_Investment_Page());
     $widgets_manager->register(new \Rida_Widget_InvestorBanner());
+    $widgets_manager->register(new \Rida_Widget_Denah());
 }
 add_action('elementor/widgets/register', 'ridafarm_register_widgets');
 

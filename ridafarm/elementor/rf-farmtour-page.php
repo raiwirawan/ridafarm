@@ -41,6 +41,17 @@ class Rida_Widget_FarmTour_Page extends \Elementor\Widget_Base {
         $this->add_control('intro_link', ['label' => __( 'Button Link', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::URL, 'default' => ['url' => '#booking-form']]);
         $this->end_controls_section();
 
+
+        // Video Section
+        $this->start_controls_section('video_sec', ['label' => __( 'Video Section', 'ridafarm' )]);
+        $this->add_control('video_title', ['label' => __( 'Section Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Farm Tour Video']);
+        $this->add_control('video_yt_url', [
+            'label' => __( 'YouTube Link (termasuk Shorts)', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::TEXT,
+            'default' => 'https://www.youtube.com/shorts/yAhXzhiuFSI',
+        ]);
+        $this->end_controls_section();
+
         // 3. Gallery Section
         $this->start_controls_section('gallery_sec', ['label' => __( 'Gallery Section', 'ridafarm' )]);
         $repeater_gal = new \Elementor\Repeater();
@@ -108,6 +119,25 @@ class Rida_Widget_FarmTour_Page extends \Elementor\Widget_Base {
                     </div>
                 </div>
             </section>
+
+            <!-- Video Section -->
+            <?php 
+            $yt_id = '';
+            if (!empty($settings['video_yt_url'])) {
+                preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i', $settings['video_yt_url'], $matches);
+                $yt_id = $matches[1] ?? '';
+            }
+            if(!empty($yt_id)): 
+            ?>
+            <section id="farm-tour-video" class="ft-video-sec container">
+                <?php if(!empty($settings['video_title'])): ?>
+                    <h2 class="ft-section-title text-center" style="text-align: center; margin-bottom: 40px; font-family: var(--font-heading); color: var(--primary); font-size: clamp(32px, 5vw, 42px);"><?php echo esc_html($settings['video_title']); ?></h2>
+                <?php endif; ?>
+                <div class="ft-video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/<?php echo esc_attr($yt_id); ?>?autoplay=1&mute=1&loop=1&playlist=<?php echo esc_attr($yt_id); ?>&controls=0&showinfo=0&rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+                </div>
+            </section>
+            <?php endif; ?>
 
             <!-- Gallery -->
             <?php if(!empty($settings['gallery'])): ?>

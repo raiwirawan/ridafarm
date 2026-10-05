@@ -37,6 +37,14 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
         $this->end_controls_section();
 
         // 2. Why Invest Section
+        
+        $this->start_controls_section('proj_sec', ['label' => __( 'Projection Graph', 'ridafarm' )]);
+        $this->add_control('proj_title', ['label' => __( 'Title (H2)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'See Your Investment Grow']);
+        $this->add_control('proj_subtitle', ['label' => __( 'Subtitle', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'Pilih paket untuk melihat proyeksi pertumbuhan dan hitung potensi return Anda.']);
+        $this->add_control('proj_default_amount', ['label' => __( 'Default Investment Amount (IDR)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::NUMBER, 'default' => 50000000]);
+                
+        $this->end_controls_section();
+
         $this->start_controls_section('why_sec', ['label' => __( 'Why Invest Section', 'ridafarm' )]);
         $this->add_control('why_title', ['label' => __( 'Section Title', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Why Invest in Rida Farm?']);
         
@@ -137,18 +145,48 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
                 </div>
             </section>
 
-            <!-- 2. Why Invest -->
-            <section class="inv-why section-padding">
+
+            <!-- 2. Projection Graph -->
+            <section class="inv-projection section-padding" id="projection">
                 <div class="container">
-                    <h2 class="inv-section-title text-center"><?php echo esc_html($settings['why_title']); ?></h2>
-                    <div class="inv-why-grid">
-                        <?php if(!empty($settings['why_cards'])): foreach($settings['why_cards'] as $card): ?>
-                            <div class="inv-why-card">
-                                <div class="inv-why-icon"><?php echo esc_html($card['icon']); ?></div>
-                                <h3 class="inv-why-card-title"><?php echo esc_html($card['title']); ?></h3>
-                                <p class="inv-why-desc"><?php echo esc_html($card['desc']); ?></p>
+                    <div class="inv-proj-header text-center animate-fade-up">
+                        <h2 class="inv-section-title"><?php echo esc_html($settings['proj_title']); ?></h2>
+                        <p class="inv-proj-subtitle"><?php echo wp_kses_post($settings['proj_subtitle']); ?></p>
+                    </div>
+                    
+                    <div class="inv-proj-container animate-fade-up">
+                        <div class="inv-proj-controls">
+                            <div class="inv-proj-tabs">
+                                <?php foreach($pkg_data as $i => $p): ?>
+                                    <button class="btn inv-proj-tab <?php echo $i === 0 ? 'active btn-primary' : 'btn-outline'; ?>" data-pkg-index="<?php echo $i; ?>">
+                                        <?php echo esc_html($p['name']); ?>
+                                    </button>
+                                <?php endforeach; ?>
                             </div>
-                        <?php endforeach; endif; ?>
+                            <div class="inv-proj-input-group">
+                                <label for="projAmount">Investasi Awal (IDR):</label>
+                                <input type="text" inputmode="numeric" id="projAmount" value="<?php echo esc_attr($settings['proj_default_amount']); ?>" min="1000000" step="1000000">
+                            </div>
+                        </div>
+                        
+                        <div class="inv-proj-chart-wrap">
+                            <canvas id="invProjChart"></canvas>
+                        </div>
+                        
+                        <div class="inv-proj-summary">
+                            <div class="inv-proj-sum-card">
+                                <span>Durasi (Bulan)</span>
+                                <strong id="projSumDur">-</strong>
+                            </div>
+                            <div class="inv-proj-sum-card">
+                                <span>ROI Total (%)</span>
+                                <strong id="projSumROI">-</strong>
+                            </div>
+                            <div class="inv-proj-sum-card highlight">
+                                <span>Estimasi Nilai Akhir</span>
+                                <strong id="projSumFinal">-</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -214,7 +252,7 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
                             <div class="inv-calc-input">
                                 <div class="inv-calc-group">
                                     <label for="calcAmount">Investment Amount (IDR)</label>
-                                    <input type="number" id="calcAmount" value="10000000" min="1000000" step="1000000">
+                                    <input type="text" inputmode="numeric" id="calcAmount" value="10000000" min="1000000" step="1000000">
                                 </div>
                                 
                                 <div class="inv-calc-group mt-group">
@@ -241,6 +279,23 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Invest (Moved) -->
+            <!-- 2. Why Invest -->
+            <section class="inv-why section-padding">
+                <div class="container">
+                    <h2 class="inv-section-title text-center"><?php echo esc_html($settings['why_title']); ?></h2>
+                    <div class="inv-why-grid">
+                        <?php if(!empty($settings['why_cards'])): foreach($settings['why_cards'] as $card): ?>
+                            <div class="inv-why-card">
+                                <div class="inv-why-icon"><?php echo esc_html($card['icon']); ?></div>
+                                <h3 class="inv-why-card-title"><?php echo esc_html($card['title']); ?></h3>
+                                <p class="inv-why-desc"><?php echo esc_html($card['desc']); ?></p>
+                            </div>
+                        <?php endforeach; endif; ?>
                     </div>
                 </div>
             </section>
@@ -288,7 +343,7 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
                                 </select>
                             </div>
                             <div class="inv-form-group">
-                                <input type="number" id="invAmount" placeholder="Planned Investment Amount (IDR)" min="1000000">
+                                <input type="text" inputmode="numeric" id="invAmount" placeholder="Planned Investment Amount (IDR)" min="1000000">
                             </div>
                             <div class="inv-form-group">
                                 <textarea id="invNote" placeholder="Questions / Notes" rows="3"></textarea>
@@ -304,6 +359,159 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
 
         <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            const formatInputAsCurrency = (inputEl) => {
+                if(!inputEl) return;
+                
+                // Format initially if there is a default value
+                const initVal = inputEl.value.replace(/\D/g, '');
+                if(initVal) inputEl.value = parseInt(initVal, 10).toLocaleString('id-ID');
+
+                inputEl.addEventListener('input', function(e) {
+                    let val = this.value.replace(/\D/g, '');
+                    if(val !== '') {
+                        val = parseInt(val, 10).toLocaleString('id-ID');
+                    }
+                    this.value = val;
+                });
+            };
+
+            const projAmountInput = document.getElementById('projAmount');
+            const calcAmountInput = document.getElementById('calcAmount');
+            const invAmountInput = document.getElementById('invAmount');
+            
+            formatInputAsCurrency(projAmountInput);
+            formatInputAsCurrency(calcAmountInput);
+            formatInputAsCurrency(invAmountInput);
+
+
+            // Projection Chart Logic
+            const ctx = document.getElementById('invProjChart');
+            if (ctx) {
+                const packagesData = <?php echo json_encode($pkg_data); ?>;
+                const projAmountInput = document.getElementById('projAmount');
+                const projTabs = document.querySelectorAll('.inv-proj-tab');
+                
+                const sumDur = document.getElementById('projSumDur');
+                const sumROI = document.getElementById('projSumROI');
+                const sumFinal = document.getElementById('projSumFinal');
+                
+                let currentPkgIndex = 0;
+                let projChart = null;
+                const formatIDR = (num) => 'Rp ' + num.toLocaleString('id-ID');
+                
+                const updateChart = () => {
+                    const amount = parseFloat(projAmountInput.value.replace(/\D/g, '')) || 0;
+                    if(packagesData.length === 0) return;
+                    
+                    const pkg = packagesData[currentPkgIndex];
+                    const roiPct = parseFloat(pkg.roi) || 0;
+                    const durMonths = parseFloat(pkg.dur) || 12;
+                    
+                    // Calculation per month
+                    const roiPerMonth = (roiPct / 12) / 100;
+                    
+                    const labels = [];
+                    const dataValues = [];
+                    const dataPrincipal = [];
+                    
+                    for (let m = 0; m <= durMonths; m++) {
+                        labels.push(m === 0 ? 'Mulai' : `Bln ${m}`);
+                        const returnSoFar = amount * roiPerMonth * m;
+                        dataValues.push(amount + returnSoFar);
+                        dataPrincipal.push(amount);
+                    }
+                    
+                    // Update Summary
+                    sumDur.textContent = durMonths + ' Bulan';
+                    sumROI.textContent = roiPct + '% / Thn';
+                    sumFinal.textContent = formatIDR(dataValues[dataValues.length - 1]);
+                    
+                    if (projChart) {
+                        projChart.data.labels = labels;
+                        projChart.data.datasets[0].data = dataValues;
+                        projChart.data.datasets[1].data = dataPrincipal;
+                        projChart.update();
+                    } else {
+                        projChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: 'Proyeksi Nilai',
+                                        data: dataValues,
+                                        borderColor: '#2C4A3B',
+                                        backgroundColor: 'rgba(44, 74, 59, 0.1)',
+                                        borderWidth: 3,
+                                        fill: true,
+                                        tension: 0.4,
+                                        pointBackgroundColor: '#C79A4B',
+                                        pointBorderColor: '#fff',
+                                        pointRadius: 4,
+                                        pointHoverRadius: 6
+                                    },
+                                    {
+                                        label: 'Modal Awal',
+                                        data: dataPrincipal,
+                                        borderColor: '#C79A4B',
+                                        borderWidth: 2,
+                                        borderDash: [5, 5],
+                                        fill: false,
+                                        pointRadius: 0
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { position: 'top' },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return context.dataset.label + ': ' + formatIDR(context.raw);
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            maxTicksLimit: 12
+                                        }
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function(value) {
+                                                return 'Rp ' + (value / 1000000) + ' Jt';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                };
+                
+                projTabs.forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        projTabs.forEach(t => t.classList.remove('active', 'btn-primary'));
+                        projTabs.forEach(t => t.classList.add('btn-outline'));
+                        
+                        e.target.classList.add('active', 'btn-primary');
+                        e.target.classList.remove('btn-outline');
+                        
+                        currentPkgIndex = parseInt(e.target.getAttribute('data-pkg-index'));
+                        updateChart();
+                    });
+                });
+                
+                projAmountInput.addEventListener('input', updateChart);
+                updateChart();
+            }
+
             // Calculator Logic
             const calcAmount = document.getElementById('calcAmount');
             const calcPkg = document.getElementById('calcPkg');
@@ -314,10 +522,11 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
 
             const updateCalc = () => {
                 if(!calcAmount || !calcPkg) return;
-                const amount = parseFloat(calcAmount.value) || 0;
+                const amount = parseFloat(calcAmount.value.replace(/\D/g, '')) || 0;
+                
                 const roiPct = parseFloat(calcPkg.value) || 0;
-                const selectedOpt = calcPkg.options[calcPkg.selectedIndex];
-                const durMonths = parseFloat(selectedOpt.getAttribute('data-dur')) || 12;
+                const opt = calcPkg.selectedOptions[0];
+                const durMonths = opt ? parseFloat(opt.getAttribute('data-dur')) : 12;
 
                 const yearly = amount * (roiPct / 100);
                 const totalRet = yearly * (durMonths / 12);
@@ -379,7 +588,7 @@ class Rida_Widget_Investment_Page extends \Elementor\Widget_Base {
                     const amt = document.getElementById('invAmount').value;
                     const note = document.getElementById('invNote').value.trim();
 
-                    const amtText = amt ? 'IDR ' + parseFloat(amt).toLocaleString('id-ID') : 'Not specified';
+                    const amtText = amt ? 'IDR ' + parseFloat(amt.replace(/\D/g, '')).toLocaleString('id-ID') : 'Not specified';
                     
                     const msg = `Hello Rida Farm! I am interested in your investment program.
 Here are my details:
