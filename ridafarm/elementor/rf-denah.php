@@ -12,6 +12,12 @@ class Rida_Widget_Denah extends \Elementor\Widget_Base {
     protected function register_controls() {
         // Section: Judul
         $this->start_controls_section('sec_title', ['label' => __( 'Judul', 'ridafarm' )]);
+        $this->add_responsive_control('wrap_pad', [
+            'label' => __( 'Padding Keseluruhan', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::DIMENSIONS,
+            'size_units' => ['px', 'em', '%'],
+            'selectors' => ['{{WRAPPER}} .rfd-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}} !important;']
+        ]);
         $this->add_control('show_title', ['label' => __( 'Tampilkan Judul', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::SWITCHER, 'default' => 'yes']);
         $this->add_control('title_text', ['label' => __( 'Teks Judul', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Prototipe Interaktif: Denah Ridafarm', 'condition' => ['show_title' => 'yes']]);
         $this->add_control('desc_text', ['label' => __( 'Teks Deskripsi', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'Klik area bangunan untuk memindahkan karakter dan melihat opsi.', 'condition' => ['show_title' => 'yes']]);
@@ -29,14 +35,14 @@ class Rida_Widget_Denah extends \Elementor\Widget_Base {
             'type' => \Elementor\Controls_Manager::MEDIA,
             'default' => ['url' => get_template_directory_uri() . '/assets/denah/pak-wayan-artana.png']
         ]);
-        $this->add_control('char_w', [
+        $this->add_responsive_control('char_w', [
             'label' => __( 'Lebar Karakter (%)', 'ridafarm' ),
             'type' => \Elementor\Controls_Manager::SLIDER,
             'range' => ['%' => ['min' => 1, 'max' => 50]],
             'default' => ['unit' => '%', 'size' => 5],
             'selectors' => ['{{WRAPPER}} .rfd-wrapper' => '--rfd-char-w: {{SIZE}}{{UNIT}};']
         ]);
-        $this->add_control('char_min_w', [
+        $this->add_responsive_control('char_min_w', [
             'label' => __( 'Min Width Karakter (px)', 'ridafarm' ),
             'type' => \Elementor\Controls_Manager::SLIDER,
             'range' => ['px' => ['min' => 10, 'max' => 200]],
@@ -58,6 +64,50 @@ class Rida_Widget_Denah extends \Elementor\Widget_Base {
         ]);
         $this->end_controls_section();
 
+        // Section: Responsif & Mobile
+        $this->start_controls_section('sec_responsive', ['label' => __( 'Responsif & Interaksi', 'ridafarm' )]);
+        
+        $this->add_control('mobile_mode', [
+            'label' => __( 'Mode Tampilan Mobile', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::SELECT,
+            'options' => ['pan' => 'Pan (Geser) - Direkomendasikan', 'scale' => 'Scale (Muat Layar)'],
+            'default' => 'pan',
+            'description' => 'Di mode geser, peta tetap besar dan bisa digeser. Mode scale akan mengecilkan peta sampai muat layar.'
+        ]);
+        
+        $this->add_control('pan_min_width', [
+            'label' => __( 'Lebar Minimum Peta (px)', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::SLIDER,
+            'range' => ['px' => ['min' => 400, 'max' => 1200]],
+            'default' => ['unit' => 'px', 'size' => 720],
+            'selectors' => ['{{WRAPPER}} .rfd-wrapper' => '--rfd-pan-min-w: {{SIZE}}{{UNIT}};'],
+            'condition' => ['mobile_mode' => 'pan']
+        ]);
+        
+        $this->add_control('hint_text', [
+            'label' => __( 'Teks Petunjuk Geser', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::TEXT,
+            'default' => 'Geser untuk menjelajah',
+            'condition' => ['mobile_mode' => 'pan']
+        ]);
+
+        $this->add_control('show_pulse', [
+            'label' => __( 'Indikator Titik Berdenyut', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::SELECT,
+            'options' => ['auto' => 'Auto (Sentuh & Awal Desktop)', 'always' => 'Selalu Tampil', 'none' => 'Sembunyikan'],
+            'default' => 'auto',
+            'description' => 'Petunjuk di setiap hotspot. Penting untuk layar sentuh.'
+        ]);
+
+        $this->add_control('show_chips', [
+            'label' => __( 'Navigasi Cepat (Chips)', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::SELECT,
+            'options' => ['mobile' => 'Mobile Saja', 'tablet_mobile' => 'Tablet & Mobile', 'all' => 'Semua Layar', 'none' => 'Sembunyikan'],
+            'default' => 'mobile',
+            'description' => 'Tombol akses cepat di bawah peta berdasarkan judul hotspot.'
+        ]);
+        $this->end_controls_section();
+
         // Section: Hotspots
         $this->start_controls_section('sec_hotspots', ['label' => __( 'Hotspot (Area Klik)', 'ridafarm' )]);
         $repeater_hs = new \Elementor\Repeater();
@@ -75,6 +125,10 @@ class Rida_Widget_Denah extends \Elementor\Widget_Base {
             'type' => \Elementor\Controls_Manager::SELECT,
             'options' => ['auto' => 'Otomatis', 'top' => 'Atas', 'right' => 'Kanan', 'left' => 'Kiri'],
             'default' => 'auto'
+        ]);
+        $repeater_hs->add_control('hide_chip', [
+            'label' => __( 'Sembunyikan dari Navigasi Chips', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::SWITCHER
         ]);
         
         $this->add_control('hotspots', [
@@ -143,6 +197,15 @@ class Rida_Widget_Denah extends \Elementor\Widget_Base {
         $this->add_control('hs_hover_bg', ['label' => __( 'Warna Latar (Hover)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::COLOR, 'selectors' => ['{{WRAPPER}} .rfd-wrapper' => '--rfd-hotspot-hover-bg: {{VALUE}};']]);
         $this->add_control('hs_active_border', ['label' => __( 'Warna Outline (Aktif)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::COLOR, 'selectors' => ['{{WRAPPER}} .rfd-wrapper' => '--rfd-hotspot-active-border: {{VALUE}};']]);
         $this->add_control('hs_active_bg', ['label' => __( 'Warna Latar (Aktif)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::COLOR, 'selectors' => ['{{WRAPPER}} .rfd-wrapper' => '--rfd-hotspot-active-bg: {{VALUE}};']]);
+        
+        $this->add_control('pulse_head', [
+            'label' => __( 'Indikator Titik Berdenyut', 'ridafarm' ),
+            'type' => \Elementor\Controls_Manager::HEADING,
+            'separator' => 'before',
+        ]);
+        $this->add_control('pulse_color', ['label' => __( 'Warna Titik', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::COLOR, 'selectors' => ['{{WRAPPER}} .rfd-wrapper' => '--rfd-pulse-color: {{VALUE}};']]);
+        $this->add_control('pulse_size', ['label' => __( 'Ukuran Titik (px)', 'ridafarm' ), 'type' => \Elementor\Controls_Manager::SLIDER, 'range' => ['px' => ['max' => 50]], 'selectors' => ['{{WRAPPER}} .rfd-wrapper' => '--rfd-pulse-size: {{SIZE}}{{UNIT}};']]);
+        
         $this->end_controls_section();
 
         $this->start_controls_section('style_popup', ['label' => __( 'Popup Aksi', 'ridafarm' ), 'tab' => \Elementor\Controls_Manager::TAB_STYLE]);
@@ -212,8 +275,11 @@ class Rida_Widget_Denah extends \Elementor\Widget_Base {
 
         $is_edit = \Elementor\Plugin::$instance->editor->is_edit_mode();
         $debug_class = ($is_edit || $s['debug_mode'] === 'yes') ? ' rfd-debug' : '';
+        $mode_class = ' rfd-mode-' . $s['mobile_mode'];
+        $pulse_attr = ' data-rfd-pulse="' . esc_attr($s['show_pulse']) . '"';
+        $chips_class = ' rfd-chips-show-' . $s['show_chips'];
         ?>
-        <div class="rfd-wrapper<?php echo $debug_class; ?>" data-rfd-id="<?php echo esc_attr($this->get_id()); ?>" data-rfd-modal-anim="<?php echo esc_attr($s['mod_anim']); ?>" data-rfd-config='<?php echo wp_json_encode($config); ?>'>
+        <div class="rfd-wrapper<?php echo $debug_class . $mode_class . $chips_class; ?>" data-rfd-id="<?php echo esc_attr($this->get_id()); ?>" data-rfd-modal-anim="<?php echo esc_attr($s['mod_anim']); ?>" data-rfd-config='<?php echo wp_json_encode($config); ?>'<?php echo $pulse_attr; ?>>
             
             <?php if ($s['show_title'] === 'yes'): ?>
             <div class="rfd-head">
@@ -222,34 +288,64 @@ class Rida_Widget_Denah extends \Elementor\Widget_Base {
             </div>
             <?php endif; ?>
 
-            <div class="rfd-map">
-                <?php if(!empty($s['bg_image']['url'])): ?>
-                    <img class="rfd-bg" src="<?php echo esc_url($s['bg_image']['url']); ?>" alt="Denah">
-                <?php endif; ?>
-                
-                <div class="rfd-layer">
-                    <?php foreach($config['hotspots'] as $h): ?>
-                        <button type="button" class="rfd-hotspot" data-key="<?php echo esc_attr($h['key']); ?>" 
-                                title="<?php 
-                                    // find tooltip
-                                    $ht = array_filter($s['hotspots'], function($v) use ($h) { return $v['key'] === $h['key']; });
-                                    $ht = reset($ht);
-                                    echo esc_attr($ht['tooltip'] ?? $h['title']); 
-                                ?>"
-                                aria-label="<?php echo esc_attr($h['title']); ?>"
-                                style="top:<?php echo esc_attr($h['top']); ?>; left:<?php echo esc_attr($h['left']); ?>; width:<?php echo esc_attr($h['w']); ?>; height:<?php echo esc_attr($h['h']); ?>;"></button>
-                    <?php endforeach; ?>
-                </div>
+            <?php if ($s['show_chips'] !== 'none'): ?>
+            <nav class="rfd-chips" role="tablist" aria-label="Navigasi Peta">
+                <?php foreach($config['hotspots'] as $h): 
+                    // cek hide_chip
+                    $ht = array_filter($s['hotspots'], function($v) use ($h) { return $v['key'] === $h['key']; });
+                    $ht = reset($ht);
+                    if (!empty($ht['hide_chip']) && $ht['hide_chip'] === 'yes') continue;
+                ?>
+                    <button type="button" class="rfd-chip" data-key="<?php echo esc_attr($h['key']); ?>" role="tab" aria-selected="false"><?php echo esc_html($h['title']); ?></button>
+                <?php endforeach; ?>
+            </nav>
+            <?php endif; ?>
 
-                <?php if(!empty($s['char_image']['url'])): ?>
-                    <img class="rfd-char" src="<?php echo esc_url($s['char_image']['url']); ?>" alt="Character" aria-hidden="true"
-                         style="top:<?php echo esc_attr($s['char_start_top']); ?>%; left:<?php echo esc_attr($s['char_start_left']); ?>%;">
-                <?php endif; ?>
+            <div class="rfd-viewport">
+                <div class="rfd-map">
+                    <?php if(!empty($s['bg_image']['url'])): ?>
+                        <img class="rfd-bg" src="<?php echo esc_url($s['bg_image']['url']); ?>" alt="Denah">
+                    <?php endif; ?>
+                    
+                    <div class="rfd-layer">
+                        <?php foreach($config['hotspots'] as $h): ?>
+                            <button type="button" class="rfd-hotspot" data-key="<?php echo esc_attr($h['key']); ?>" 
+                                    title="<?php 
+                                        $ht = array_filter($s['hotspots'], function($v) use ($h) { return $v['key'] === $h['key']; });
+                                        $ht = reset($ht);
+                                        echo esc_attr($ht['tooltip'] ?? $h['title']); 
+                                    ?>"
+                                    aria-label="<?php echo esc_attr($h['title']); ?>"
+                                    style="top:<?php echo esc_attr($h['top']); ?>; left:<?php echo esc_attr($h['left']); ?>; width:<?php echo esc_attr($h['w']); ?>; height:<?php echo esc_attr($h['h']); ?>;"></button>
+                        <?php endforeach; ?>
+                    </div>
 
-                <div class="rfd-popup" role="dialog" aria-live="polite">
-                    <div class="rfd-popup-head"></div>
-                    <div class="rfd-popup-body"></div>
+                    <?php if(!empty($s['char_image']['url'])): ?>
+                        <img class="rfd-char" src="<?php echo esc_url($s['char_image']['url']); ?>" alt="Character" aria-hidden="true"
+                             style="top:<?php echo esc_attr($s['char_start_top']); ?>%; left:<?php echo esc_attr($s['char_start_left']); ?>%;">
+                    <?php endif; ?>
+
+                    <!-- Desktop/Tablet Popup -->
+                    <div class="rfd-popup" role="dialog" aria-live="polite">
+                        <div class="rfd-popup-head"></div>
+                        <div class="rfd-popup-body"></div>
+                    </div>
                 </div>
+            </div>
+
+            <?php if ($s['mobile_mode'] === 'pan' && !empty($s['hint_text'])): ?>
+            <div class="rfd-hint" aria-hidden="true">
+                <span><?php echo esc_html($s['hint_text']); ?></span>
+            </div>
+            <?php endif; ?>
+
+            <!-- Mobile Bottom Sheet -->
+            <div class="rfd-sheet-overlay" aria-hidden="true"></div>
+            <div class="rfd-sheet" role="dialog" aria-modal="true" aria-live="polite">
+                <div class="rfd-sheet-handle"></div>
+                <div class="rfd-sheet-head"></div>
+                <div class="rfd-sheet-body"></div>
+                <button type="button" class="rfd-sheet-close" aria-label="Tutup"><i class="fas fa-times"></i></button>
             </div>
 
             <!-- Modal Templates -->

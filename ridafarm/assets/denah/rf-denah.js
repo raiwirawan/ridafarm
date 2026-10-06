@@ -18,11 +18,25 @@
         }
 
         const mapEl = wrapper.querySelector('.rfd-map');
+        const viewportEl = wrapper.querySelector('.rfd-viewport');
         const charEl = wrapper.querySelector('.rfd-char');
         const popupEl = wrapper.querySelector('.rfd-popup');
         const popupHead = popupEl.querySelector('.rfd-popup-head');
         const popupBody = popupEl.querySelector('.rfd-popup-body');
         const hotspots = wrapper.querySelectorAll('.rfd-hotspot');
+        const chips = wrapper.querySelectorAll('.rfd-chip');
+        const chipsContainer = wrapper.querySelector('.rfd-chips');
+        
+        const sheetEl = wrapper.querySelector('.rfd-sheet');
+        const sheetOverlay = wrapper.querySelector('.rfd-sheet-overlay');
+        const sheetHead = wrapper.querySelector('.rfd-sheet-head');
+        const sheetBody = wrapper.querySelector('.rfd-sheet-body');
+        const sheetClose = wrapper.querySelector('.rfd-sheet-close');
+        
+        const hintEl = wrapper.querySelector('.rfd-hint');
+
+        let isMobile = window.matchMedia('(max-width: 767px)').matches;
+        let isPanMode = wrapper.classList.contains('rfd-mode-pan');
 
         let currentTimeout = null;
         let activeTransitionListener = null;
@@ -36,7 +50,13 @@
 
         const closePopup = () => {
             popupEl.classList.remove('rfd-show');
+            if (sheetEl) {
+                sheetEl.classList.remove('rfd-show');
+                sheetOverlay.classList.remove('rfd-show');
+                document.documentElement.classList.remove('rfd-sheet-open');
+            }
             hotspots.forEach(h => h.classList.remove('rfd-active'));
+            chips.forEach(c => c.classList.remove('rfd-active'));
         };
 
         const clampPopup = () => {
@@ -64,8 +84,11 @@
                 charEl.classList.add('rfd-arrived');
             }
             
-            popupHead.textContent = hsData.title || '';
-            popupBody.innerHTML = '';
+            const targetHead = isMobile && sheetEl ? sheetHead : popupHead;
+            const targetBody = isMobile && sheetEl ? sheetBody : popupBody;
+            
+            targetHead.textContent = hsData.title || '';
+            targetBody.innerHTML = '';
             popupEl.style.setProperty('margin-left', '0px', 'important');
             
             const opts = config.options.filter(o => o.key === hsData.key);
@@ -91,39 +114,50 @@
                     btn.addEventListener('click', () => openModal(opt.index, wrapper));
                 }
                 
-                popupBody.appendChild(btn);
+                targetBody.appendChild(btn);
             });
 
-            let topVal = parseFloat(top);
-            let leftVal = parseFloat(left);
-            
-            // Positioning Logic
-            let popPos = hsData.popupPos || 'auto';
-            if (popPos === 'auto') {
-                popPos = topVal < 25 ? 'right' : 'top';
-            }
-
-            if (popPos === 'right') {
-                popupEl.style.setProperty('top', topVal + '%', 'important');
-                popupEl.style.setProperty('left', (leftVal + (parseFloat(config.charW)/2 || 2.5) + 2) + '%', 'important');
-                popupEl.style.setProperty('transform', 'translate(0, -50%)', 'important');
-            } else if (popPos === 'left') {
-                popupEl.style.setProperty('top', topVal + '%', 'important');
-                popupEl.style.setProperty('left', (leftVal - (parseFloat(config.charW)/2 || 2.5) - 2) + '%', 'important');
-                popupEl.style.setProperty('transform', 'translate(-100%, -50%)', 'important');
+            if (isMobile && sheetEl) {
+                sheetOverlay.classList.add('rfd-show');
+                sheetEl.classList.add('rfd-show');
+                document.documentElement.classList.add('rfd-sheet-open');
+                if (sheetClose) sheetClose.focus();
             } else {
-                // top
-                popupEl.style.setProperty('top', (topVal - 6) + '%', 'important');
-                popupEl.style.setProperty('left', leftVal + '%', 'important');
-                popupEl.style.setProperty('transform', 'translate(-50%, -100%)', 'important');
+                let topVal = parseFloat(top);
+                let leftVal = parseFloat(left);
+                
+                // Positioning Logic
+                let popPos = hsData.popupPos || 'auto';
+                if (popPos === 'auto') {
+                    popPos = topVal < 25 ? 'right' : 'top';
+                }
+
+                if (popPos === 'right') {
+                    popupEl.style.setProperty('top', topVal + '%', 'important');
+                    popupEl.style.setProperty('left', (leftVal + (parseFloat(config.charW)/2 || 2.5) + 2) + '%', 'important');
+                    popupEl.style.setProperty('transform', 'translate(0, -50%)', 'important');
+                } else if (popPos === 'left') {
+                    popupEl.style.setProperty('top', topVal + '%', 'important');
+                    popupEl.style.setProperty('left', (leftVal - (parseFloat(config.charW)/2 || 2.5) - 2) + '%', 'important');
+                    popupEl.style.setProperty('transform', 'translate(-100%, -50%)', 'important');
+                } else {
+                    // top
+                    popupEl.style.setProperty('top', (topVal - 6) + '%', 'important');
+                    popupEl.style.setProperty('left', leftVal + '%', 'important');
+                    popupEl.style.setProperty('transform', 'translate(-50%, -100%)', 'important');
+                }
+                
+                popupEl.classList.add('rfd-show');
+                setTimeout(clampPopup, 50); // wait for display
             }
-            
-            popupEl.classList.add('rfd-show');
-            setTimeout(clampPopup, 50); // wait for display
         };
 
         const moveCharacter = (hsData) => {
             closePopup();
+            
+            if (isMobile && isPanMode && viewportEl && hintEl) {
+                hintEl.classList.remove('rfd-show');
+            }
             
             if (!charEl) {
                 // Fallback if character is disabled
@@ -151,6 +185,16 @@
             charEl.style.setProperty('top', hsData.cTop, 'important');
             charEl.style.setProperty('left', hsData.cLeft, 'important');
 
+            if (isMobile && isPanMode && viewportEl) {
+                // Scroll viewport so character target is in center
+                const mapWidth = mapEl.offsetWidth;
+                const viewWidth = viewportEl.clientWidth;
+                const leftPercent = parseFloat(hsData.cLeft) / 100;
+                const targetPixel = mapWidth * leftPercent;
+                const scrollTarget = targetPixel - (viewWidth / 2);
+                viewportEl.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+            }
+
             const onTransitionEnd = (e) => {
                 if (e.propertyName === 'top' || e.propertyName === 'left') {
                     charEl.removeEventListener('transitionend', onTransitionEnd);
@@ -177,21 +221,98 @@
                 if(data) {
                     hotspots.forEach(h => h.classList.remove('rfd-active'));
                     this.classList.add('rfd-active');
+                    
+                    chips.forEach(c => c.classList.remove('rfd-active'));
+                    const activeChip = Array.from(chips).find(c => c.getAttribute('data-key') === key);
+                    if (activeChip) {
+                        activeChip.classList.add('rfd-active');
+                        activeChip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                    
+                    wrapper.classList.remove('rfd-pulse-on'); // turn off auto pulse
                     moveCharacter(data);
                 }
             });
         });
 
+        chips.forEach(chip => {
+            chip.addEventListener('click', function(e) {
+                const key = this.getAttribute('data-key');
+                const hs = Array.from(hotspots).find(h => h.getAttribute('data-key') === key);
+                if (hs) hs.click();
+            });
+        });
+
         wrapper.addEventListener('click', function(e) {
-            if (!e.target.closest('.rfd-hotspot') && !e.target.closest('.rfd-popup')) {
+            if (!e.target.closest('.rfd-hotspot') && !e.target.closest('.rfd-popup') && !e.target.closest('.rfd-chip') && !e.target.closest('.rfd-sheet')) {
                 closePopup();
             }
         });
+
+        if (sheetOverlay) sheetOverlay.addEventListener('click', closePopup);
+        if (sheetClose) sheetClose.addEventListener('click', closePopup);
+
+        // Swipe to close sheet
+        if (sheetEl) {
+            let startY = 0;
+            let currentY = 0;
+            const handle = sheetEl.querySelector('.rfd-sheet-handle');
+            const head = sheetEl.querySelector('.rfd-sheet-head');
+            
+            const onTouchStart = (e) => {
+                startY = e.touches[0].clientY;
+                currentY = startY;
+                sheetEl.style.transition = 'none';
+            };
+            const onTouchMove = (e) => {
+                currentY = e.touches[0].clientY;
+                const delta = currentY - startY;
+                if (delta > 0) {
+                    sheetEl.style.transform = `translateY(${delta}px)`;
+                }
+            };
+            const onTouchEnd = () => {
+                sheetEl.style.transition = '';
+                sheetEl.style.transform = '';
+                if (currentY - startY > 50) {
+                    closePopup();
+                }
+            };
+
+            if (handle) {
+                handle.addEventListener('touchstart', onTouchStart, {passive: true});
+                handle.addEventListener('touchmove', onTouchMove, {passive: true});
+                handle.addEventListener('touchend', onTouchEnd);
+            }
+            if (head) {
+                head.addEventListener('touchstart', onTouchStart, {passive: true});
+                head.addEventListener('touchmove', onTouchMove, {passive: true});
+                head.addEventListener('touchend', onTouchEnd);
+            }
+        }
 
         wrapper.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && popupEl.classList.contains('rfd-show')) {
                 closePopup();
             }
+            if (e.key === 'Escape' && sheetEl && sheetEl.classList.contains('rfd-show')) {
+                closePopup();
+            }
+        });
+
+        // Resize detection
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const wasMobile = isMobile;
+                isMobile = window.matchMedia('(max-width: 767px)').matches;
+                if (wasMobile !== isMobile) {
+                    closePopup();
+                } else if (!isMobile && popupEl.classList.contains('rfd-show')) {
+                    clampPopup();
+                }
+            }, 100);
         });
         
         // --- Modal Logic ---
@@ -249,6 +370,42 @@
             portal.addEventListener('keydown', (e) => {
                 if(e.key === 'Escape') closeModal();
             });
+        }
+        
+        // --- Pulse & Hint Logic ---
+        if ('IntersectionObserver' in window) {
+            let hasShownPulse = false;
+            let pulseTimeout = null;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasShownPulse) {
+                        hasShownPulse = true;
+                        
+                        // Desktop Pulse
+                        if (wrapper.getAttribute('data-rfd-pulse') === 'auto') {
+                            wrapper.classList.add('rfd-pulse-on');
+                            pulseTimeout = setTimeout(() => {
+                                wrapper.classList.remove('rfd-pulse-on');
+                            }, 5000);
+                        }
+                        
+                        // Hint
+                        if (hintEl && isMobile && isPanMode) {
+                            hintEl.classList.add('rfd-show');
+                            const hideHint = () => hintEl.classList.remove('rfd-show');
+                            
+                            // Hide hint on user interaction
+                            if (viewportEl) viewportEl.addEventListener('scroll', hideHint, {once: true});
+                            setTimeout(hideHint, 4000); // Or hide after 4s
+                        }
+                        
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            observer.observe(wrapper);
         }
     }
 

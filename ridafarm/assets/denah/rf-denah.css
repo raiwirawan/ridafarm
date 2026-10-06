@@ -4,7 +4,6 @@
     width: 100% !important;
     max-width: 1200px !important;
     margin: 0 auto !important;
-    padding: 60px 15px !important;
     font-family: var(--font-body, sans-serif) !important;
     --rfd-dur: 1s;
     --rfd-char-w: 5%;
@@ -33,6 +32,73 @@
     margin: 0 !important;
 }
 
+/* Navigasi Chips */
+.rfd-chips {
+    display: flex !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important; /* Firefox */
+    padding: 4px 2px 16px 2px !important;
+    margin-bottom: 0 !important;
+}
+.rfd-chips::-webkit-scrollbar {
+    display: none !important;
+}
+.rfd-chip {
+    flex-shrink: 0 !important;
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    color: #444 !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    min-height: 40px !important;
+}
+.rfd-chip:hover, .rfd-chip:focus-visible {
+    background: #f0f0f0 !important;
+    border-color: #bbb !important;
+}
+.rfd-chip.rfd-active {
+    background: var(--primary, #1a3e2c) !important;
+    color: #fff !important;
+    border-color: var(--primary, #1a3e2c) !important;
+}
+
+/* Petunjuk Geser */
+.rfd-hint {
+    text-align: center !important;
+    margin-top: 12px !important;
+    opacity: 0 !important;
+    transition: opacity 0.5s !important;
+    pointer-events: none !important;
+}
+.rfd-hint.rfd-show {
+    opacity: 1 !important;
+}
+.rfd-hint span {
+    display: inline-block !important;
+    background: rgba(0,0,0,0.6) !important;
+    color: white !important;
+    padding: 6px 12px !important;
+    border-radius: 16px !important;
+    font-size: 12px !important;
+    letter-spacing: 0.5px !important;
+    animation: rfd-bounce-x 2s infinite !important;
+}
+@keyframes rfd-bounce-x {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+.rfd-viewport {
+    position: relative !important;
+    width: 100% !important;
+    overflow: visible !important;
+}
+
 .rfd-map {
     position: relative !important;
     width: 100% !important;
@@ -40,6 +106,7 @@
     border: var(--rfd-container-border, 2px solid #ddd) !important;
     border-radius: var(--rfd-container-radius, 8px) !important;
     background-color: var(--rfd-container-bg, #f9f9f9) !important;
+    transition: width 0.3s ease !important;
 }
 
 .rfd-bg {
@@ -89,6 +156,47 @@
 .rfd-hotspot.rfd-active {
     background: var(--rfd-hotspot-active-bg, rgba(255, 200, 0, 0.4)) !important;
     border-color: var(--rfd-hotspot-active-border, rgba(255, 200, 0, 1)) !important;
+}
+
+/* Indikator Berdenyut (Pulse) */
+.rfd-hotspot::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important; left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: var(--rfd-pulse-size, 16px) !important;
+    height: var(--rfd-pulse-size, 16px) !important;
+    background: var(--rfd-pulse-color, var(--accent, #a58e65)) !important;
+    border-radius: 50% !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s !important;
+}
+
+/* Selalu nyala di touch */
+@media (hover: none) {
+    .rfd-wrapper[data-rfd-pulse="auto"] .rfd-hotspot:not(.rfd-active)::after {
+        animation: rfd-pulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+}
+/* Auto di desktop (dikontrol via class .rfd-pulse-on dari JS) */
+.rfd-wrapper.rfd-pulse-on[data-rfd-pulse="auto"] .rfd-hotspot:not(.rfd-active)::after {
+    animation: rfd-pulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+/* Paksa selalu */
+.rfd-wrapper[data-rfd-pulse="always"] .rfd-hotspot:not(.rfd-active)::after {
+    animation: rfd-pulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+/* Saat aktif, jadi solid */
+.rfd-wrapper:not([data-rfd-pulse="none"]) .rfd-hotspot.rfd-active::after {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    animation: none !important;
+}
+
+@keyframes rfd-pulse {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
 }
 
 /* Character Image (handles position and animation) */
@@ -350,11 +458,151 @@ html.rfd-modal-open .rf-floating-wa {
     color: var(--rfd-modal-cta-color, #fff) !important;
 }
 
+/* --- Bottom Sheet Mobile --- */
+.rfd-sheet-overlay {
+    position: fixed !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4) !important;
+    z-index: 9996 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.3s ease, visibility 0.3s !important;
+}
+.rfd-sheet-overlay.rfd-show {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.rfd-sheet {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: var(--rfd-popup-body-bg, #fff) !important;
+    z-index: 9997 !important;
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.15) !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 60dvh !important;
+    padding-bottom: env(safe-area-inset-bottom, 0) !important;
+}
+.rfd-sheet.rfd-show {
+    transform: translateY(0) !important;
+}
+
+.rfd-sheet-handle {
+    width: 40px !important;
+    height: 4px !important;
+    background: #ddd !important;
+    border-radius: 2px !important;
+    margin: 12px auto !important;
+}
+
+.rfd-sheet-head {
+    background: var(--rfd-popup-head-bg, var(--primary, #1a3e2c)) !important;
+    color: var(--rfd-popup-head-color, white) !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    text-align: center !important;
+}
+
+.rfd-sheet-body {
+    padding: 16px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.rfd-sheet-close {
+    position: absolute !important;
+    top: 8px !important;
+    right: 12px !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 20px !important;
+    color: #999 !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+}
+.rfd-sheet-close:hover {
+    background: rgba(0,0,0,0.05) !important;
+}
+
+/* --- Media Queries --- */
+/* Sembunyikan Sheet di Desktop */
+@media (min-width: 768px) {
+    .rfd-sheet, .rfd-sheet-overlay { display: none !important; }
+}
+
+@media (max-width: 767px) {
+    .rfd-wrapper.rfd-mode-pan .rfd-viewport {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-x pan-y !important;
+        margin: 0 -15px !important;
+        padding: 0 15px !important;
+    }
+    .rfd-wrapper.rfd-mode-pan .rfd-map {
+        width: max(100%, var(--rfd-pan-min-w, 720px)) !important;
+        overflow: visible !important;
+    }
+    
+    .rfd-popup {
+        display: none !important; /* Sheet is used instead */
+    }
+    
+    .rfd-wrapper.rfd-chips-show-none .rfd-chips { display: none !important; }
+
+    /* Modal Tweaks for Mobile */
+    .rfd-modal-content {
+        width: 94% !important;
+        max-height: 88dvh !important;
+        padding: 16px !important;
+    }
+    .rfd-modal-close {
+        width: 44px !important;
+        height: 44px !important;
+        position: fixed !important; /* Stay on top right */
+    }
+    
+    /* Hide float WA button when sheet open */
+    html.rfd-sheet-open .rf-floating-wa {
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .rfd-wrapper.rfd-chips-show-mobile .rfd-chips { display: none !important; }
+}
+
+@media (min-width: 1025px) {
+    .rfd-wrapper.rfd-chips-show-mobile .rfd-chips,
+    .rfd-wrapper.rfd-chips-show-tablet_mobile .rfd-chips { display: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .rfd-char-wrap {
         transition-duration: 0.1s !important;
     }
     .rfd-char.rfd-moving, .rfd-char.rfd-arrived {
         animation: none !important;
+    }
+    .rfd-wrapper[data-rfd-pulse="always"] .rfd-hotspot:not(.rfd-active)::after,
+    .rfd-wrapper.rfd-pulse-on .rfd-hotspot:not(.rfd-active)::after {
+        animation: none !important;
+        opacity: 0.6 !important;
+    }
+    .rfd-sheet {
+        transition: none !important;
     }
 }
